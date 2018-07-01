@@ -1,5 +1,7 @@
 package org.hupeng.framework.servlet;
 
+import org.hupeng.framework.servlet.renderer.Renderer;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -13,6 +15,16 @@ public class HttpProcessContext {
     private HttpServletRequest request;
 
     private HttpServletResponse response;
+
+    private Renderer renderer;
+
+    public Renderer getRenderer() {
+        return renderer;
+    }
+
+    public void setRenderer(Renderer renderer) {
+        this.renderer = renderer;
+    }
 
     public HttpServletRequest getRequest() {
         return request;

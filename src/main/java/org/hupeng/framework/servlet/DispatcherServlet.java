@@ -21,7 +21,7 @@ public class DispatcherServlet extends HttpServlet {
     /**
      * 处理器集合
      */
-    public static final List<Handler> HANDLER = new ArrayList<Handler>();
+    private static final List<Handler> HANDLER = new ArrayList<Handler>();
 
     /**
      * handle初始化
