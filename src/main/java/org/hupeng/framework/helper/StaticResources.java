@@ -17,7 +17,7 @@ public class StaticResources {
 
     /**
      * 静态资源路径
-     * @return
+     * @return path
      */
     public static String getPath() {
         return PropsUtil.getString(CONFIG_PROPS, Keys.Server.STATIC_RESOURCE_PATH);
@@ -25,14 +25,11 @@ public class StaticResources {
 
     /**
      * 静态资源判断
-     * @param request
-     * @return
+     * @param request HttpServletRequest
+     * @return isStatic
      */
     public static boolean isStatic(final HttpServletRequest request) {
-        if (AntPathMatcher.match(getPath(), request.getRequestURI())) {
-            return true;
-        }
-        return false;
+        return AntPathMatcher.match(getPath(), request.getRequestURI());
     }
 
 }

@@ -1,6 +1,7 @@
 package org.hupeng.framework.servlet;
 
 import org.hupeng.framework.servlet.handler.Handler;
+import org.hupeng.framework.servlet.handler.RequestDispatchHandler;
 import org.hupeng.framework.servlet.handler.StaticResourceHandler;
 
 import javax.servlet.ServletException;
@@ -29,6 +30,7 @@ public class DispatcherServlet extends HttpServlet {
     @Override
     public void init() throws ServletException {
         HANDLER.add(new StaticResourceHandler(getServletContext()));
+        HANDLER.add(new RequestDispatchHandler());
     }
 
     @Override
