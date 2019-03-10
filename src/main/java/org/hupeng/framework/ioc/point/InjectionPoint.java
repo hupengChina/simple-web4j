@@ -25,13 +25,6 @@ public interface InjectionPoint
     Type getType();
 
     /**
-     * Get the required qualifiers of the injection point.
-     *
-     * @return the required qualifiers
-     */
-    Set<Annotation> getQualifiers();
-
-    /**
      * Get the {@link org.hupeng.framework.ioc.bean.Bean
      * javax.enterprise.inject.spi.Bean} object representing the
      * bean that defines the injection point. If the injection point does not
@@ -54,17 +47,6 @@ public interface InjectionPoint
      * @return the member
      */
     Member getMember();
-
-    /**
-     * Obtain an instance of {@link org.hupeng.framework.ioc.Annotated.AnnotatedField
-     * javax.enterprise.inject.spi.AnnotatedField}
-     * or {@link org.hupeng.framework.ioc.Annotated.AnnotatedParameter
-     * javax.enterprise.inject.spi.AnnotatedParameter}, depending upon
-     * whether the injection point is an injected field or a constructor/method parameter.
-     *
-     * @return an {@code AnnotatedField} or {@code AnnotatedParameter}
-     */
-    Annotated getAnnotated();
 
     /**
      * Determines if the injection point is a decorator delegate injection point.
