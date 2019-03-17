@@ -1,7 +1,6 @@
 package org.hupeng.framework.servlet.handler;
 
-import org.hupeng.framework.ioc.BeanManager;
-import org.hupeng.framework.ioc.Lifecycle;
+import org.hupeng.framework.ioc.SingletonInstanceContext;
 import org.hupeng.framework.servlet.HttpProcessContext;
 import org.hupeng.framework.servlet.HttpProcessControl;
 
@@ -15,7 +14,7 @@ public class RequestDispatchHandler implements Handler {
 
     @Override
     public void handle(HttpProcessContext processContext, HttpProcessControl processControl) {
-        BeanManager beanManager = Lifecycle.getBeanManager();
-        beanManager.getBeans("");
+
+        //SingletonInstanceContext.getInstance().get(clazz);
     }
 }

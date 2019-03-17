@@ -39,4 +39,10 @@ public interface Bean<T> {
      */
     Set<InjectionPoint> getInjectionPoints();
 
+    /**
+     * 获取bean实例
+     * @return
+     */
+    public T getInstance();
+
 }
