@@ -43,6 +43,6 @@ public interface Bean<T> {
      * 获取bean实例
      * @return
      */
-    public T getInstance();
+    public T getInstance() throws IllegalAccessException, InstantiationException;
 
 }

@@ -1,7 +1,12 @@
 package org.hupeng.framework.ioc.bean;
 
+import javassist.util.proxy.ProxyFactory;
+import javassist.util.proxy.ProxyObject;
+import org.apache.commons.lang3.StringUtils;
 import org.hupeng.framework.ioc.point.InjectionPoint;
 
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Method;
 import java.lang.reflect.Type;
 import java.util.Set;
 
@@ -11,7 +16,17 @@ import java.util.Set;
  */
 public class DefaultBean<T> implements Bean {
 
-    private Object instance;
+    private Class<T> beanClass;
+
+    private Class<T> proxyClass;
+
+    public DefaultBean(Class<T> beanClass){
+        this.beanClass = beanClass;
+
+        ProxyFactory proxyFactory = new ProxyFactory();
+        proxyFactory.setSuperclass(beanClass);
+        this.proxyClass = (Class<T>) proxyFactory.createClass();
+    }
 
     @Override
     public Set<Type> getTypes() {
@@ -34,8 +49,9 @@ public class DefaultBean<T> implements Bean {
     }
 
     @Override
-    public T getInstance(){
-        //获取Bean实例
-        return null;
+    public T getInstance() throws IllegalAccessException, InstantiationException {
+        final T instance = proxyClass.newInstance();
+        ((ProxyObject) instance).setHandler((final Object proxy, final Method method, final Method proceed, final Object[] params)-> proceed.invoke(proxy, params));
+        return instance;
     }
 }

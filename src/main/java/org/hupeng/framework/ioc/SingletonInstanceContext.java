@@ -3,9 +3,9 @@ package org.hupeng.framework.ioc;
 import org.hupeng.framework.ioc.bean.Bean;
 import org.hupeng.framework.util.ClassUtil;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @Author: hupeng
@@ -18,7 +18,7 @@ public class SingletonInstanceContext {
     private BeanManager beanManager;
 
     private SingletonInstanceContext() {
-        beanReferences = new HashMap<>();
+        beanReferences = new ConcurrentHashMap<>();
         beanManager = DefaultBeanManager.getInstance();
     }
 
@@ -40,7 +40,7 @@ public class SingletonInstanceContext {
      * @param <T>
      * @return
      */
-    public <T> T get(final Class<T> beanClass) {
+    public <T> T get(final Class<T> beanClass) throws InstantiationException, IllegalAccessException {
         Bean<T> bean = beanManager.getBean(beanClass);
         //获取时进行实例化
         if(beanReferences.get(bean) != null){

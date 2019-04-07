@@ -22,8 +22,7 @@ public class BeanConfigurator {
      * @return
      */
     public <T> Bean<T> doCreateBean(Class<T> beanClass) {
-        Bean<T> bean = new DefaultBean();
-
+        Bean<T> bean = new DefaultBean(beanClass);
         //将生成的bean对象交由beanManager管理
         beanManager.addBean(bean);
         return bean;
