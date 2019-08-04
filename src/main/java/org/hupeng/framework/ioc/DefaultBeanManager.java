@@ -4,8 +4,9 @@ package org.hupeng.framework.ioc;
 import org.hupeng.framework.ioc.bean.Bean;
 
 import java.lang.annotation.Annotation;
-import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @author hupeng
@@ -13,7 +14,7 @@ import java.util.Set;
  */
 public class DefaultBeanManager implements BeanManager {
 
-    private static Set<Bean<?>> beans;
+    private static Map<String, Bean<?>> beanMap;
 
     /**
      * 实际创建(组装)bean对象
@@ -21,9 +22,9 @@ public class DefaultBeanManager implements BeanManager {
     private static BeanConfigurator beanConfigurator;
 
     private DefaultBeanManager() {
-        beans = new HashSet<>();
+        beanMap = new ConcurrentHashMap<>();
         beanConfigurator = new BeanConfigurator(this);
-        beanConfigurator.doCreateBean(BeanManager.class);
+        beanConfigurator.doCreateBean(DefaultBeanManager.class);
     }
 
     public static BeanManager getInstance() {
@@ -38,12 +39,14 @@ public class DefaultBeanManager implements BeanManager {
 
     @Override
     public void addBean(final Bean<?> bean) {
-        beans.add(bean);
+        beanMap.put(bean.getName(),bean);
     }
 
     @Override
     public <T> Bean<T> getBean(Class<T> beanClass) {
-        for (final Bean<?> bean : beans) {
+
+        for (final Map.Entry<String, Bean<?>> entryMap: beanMap.entrySet()) {
+            Bean<?> bean = entryMap.getValue();
             if (bean.getBeanClass().equals(beanClass)) {
                 return (Bean<T>) bean;
             }

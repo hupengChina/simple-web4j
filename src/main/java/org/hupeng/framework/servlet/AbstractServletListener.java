@@ -16,18 +16,16 @@
 package org.hupeng.framework.servlet;
 
 
+import lombok.extern.slf4j.Slf4j;
 import org.hupeng.framework.ioc.DefaultServletContext;
 import org.hupeng.framework.ioc.SingletonInstanceContext;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
 
+@Slf4j
 public abstract class AbstractServletListener implements ServletContextListener, ServletRequestListener, HttpSessionListener {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(AbstractServletListener.class);
 
     private static ServletContext servletContext;
 
@@ -47,7 +45,7 @@ public abstract class AbstractServletListener implements ServletContextListener,
         servletContext = servletContextEvent.getServletContext();
         try {
             //根据包路径，初始化对应单例容器
-            SingletonInstanceContext.getInstance().init("");
+            SingletonInstanceContext.getInstance().init("com.demo");
         } catch (final Exception e) {
             throw new IllegalStateException("初始化bean失败");
         }
@@ -55,7 +53,7 @@ public abstract class AbstractServletListener implements ServletContextListener,
 
     @Override
     public void contextDestroyed(final ServletContextEvent servletContextEvent) {
-        LOGGER.info("关闭容器");
+        log.info("关闭容器");
     }
 
     @Override

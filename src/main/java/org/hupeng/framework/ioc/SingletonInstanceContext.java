@@ -2,6 +2,7 @@ package org.hupeng.framework.ioc;
 
 import org.hupeng.framework.ioc.bean.Bean;
 import org.hupeng.framework.util.ClassUtil;
+import org.hupeng.framework.util.ReflectionUtil;
 
 import java.util.Map;
 import java.util.Set;
@@ -43,8 +44,11 @@ public class SingletonInstanceContext {
     public <T> T get(final Class<T> beanClass) throws InstantiationException, IllegalAccessException {
         Bean<T> bean = beanManager.getBean(beanClass);
         //获取时进行实例化
-        if(beanReferences.get(bean) != null){
-            beanReferences.put(bean, bean.getInstance());
+        if(beanReferences.get(bean) == null){
+
+
+
+            beanReferences.put(bean, ReflectionUtil.newInstance(beanClass));
         }
         return (T) beanReferences.get(bean);
     }
