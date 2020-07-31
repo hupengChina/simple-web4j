@@ -15,7 +15,7 @@ public class ReflectionUtil {
     public static <T> Object newInstance(Class<T> clz) {
         T instance;
         try {
-            instance = clz.newInstance();
+            instance = clz.getDeclaredConstructor().newInstance();
         } catch (Exception e) {
             log.error("创建实例失败", e);
             throw new RuntimeException(e);

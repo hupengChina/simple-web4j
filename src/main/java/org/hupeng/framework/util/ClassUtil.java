@@ -1,6 +1,6 @@
 package org.hupeng.framework.util;
 
-import java.util.Set;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * @author hupeng
@@ -8,8 +8,13 @@ import java.util.Set;
  */
 public class ClassUtil {
 
-    public static Set<Class<?>> getClassSet(String packagePath) {
-
-        return null;
+    public static ClassLoader getClassLoader() {
+        return Thread.currentThread().getContextClassLoader();
     }
+
+    public static Class<?> loadClass(String className, boolean isInitialized) throws ClassNotFoundException {
+        return Class.forName(className, isInitialized, getClassLoader());
+    }
+
 }
+
