@@ -1,14 +1,14 @@
-package org.hupeng.framework.servlet.action;
+package org.hupeng.framework.web.handler;
 
 import java.lang.reflect.Method;
 
-public class ActionInfo {
+public class Handler {
 
     private Class<?> controllerClass;
 
     private Method method;
 
-    public ActionInfo(Class<?> controllerClass, Method method) {
+    public Handler(Class<?> controllerClass, Method method) {
         this.controllerClass = controllerClass;
         this.method = method;
     }

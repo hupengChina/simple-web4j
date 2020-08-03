@@ -7,11 +7,10 @@ import java.lang.annotation.Target;
 
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface Action {
+public @interface RequestMapping {
 
     String method() default "GET";
 
     String value();
-
 
 }
