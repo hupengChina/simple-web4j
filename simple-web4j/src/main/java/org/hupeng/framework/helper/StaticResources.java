@@ -4,7 +4,6 @@ import org.hupeng.framework.Keys;
 import org.hupeng.framework.util.AntPathMatcher;
 import org.hupeng.framework.util.PropsUtil;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.Properties;
 
 /**
@@ -25,11 +24,11 @@ public class StaticResources {
 
     /**
      * 静态资源判断
-     * @param request HttpServletRequest
+     * @param uri String
      * @return isStatic
      */
-    public static boolean isStatic(HttpServletRequest request) {
-        return AntPathMatcher.match(getPath(), request.getRequestURI());
+    public static boolean isStatic(String uri) {
+        return AntPathMatcher.match(getPath(), uri);
     }
 
 }

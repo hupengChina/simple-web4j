@@ -10,6 +10,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * @Author: hupeng
@@ -25,6 +26,8 @@ public class SingletonInstanceContext {
 
     private BeanManager beanManager;
 
+    public AtomicBoolean isInit = new AtomicBoolean(false);
+
     private SingletonInstanceContext() {
         beanManager = DefaultBeanManager.getInstance();
     }
@@ -39,6 +42,7 @@ public class SingletonInstanceContext {
             //根据包创建bean对象
             beanManager.createBean(clazz);
         }
+        isInit.set(true);
     }
 
 

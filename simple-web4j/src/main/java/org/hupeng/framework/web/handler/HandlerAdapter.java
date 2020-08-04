@@ -5,6 +5,8 @@ import org.hupeng.framework.web.server.http.WebResponse;
 
 public interface HandlerAdapter {
 
-    void handle(WebRequest request, WebResponse response, Handler handler, HandlerAdapterController handlerAdapterController);
+    boolean supports(Object handler);
+
+    HandleResult handle(WebRequest request, WebResponse response, Object handler);
 
 }

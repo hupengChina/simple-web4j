@@ -1,5 +1,6 @@
 package org.hupeng.framework.web.server.http;
 
+import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.http.FullHttpResponse;
 import lombok.Data;
 import lombok.experimental.Accessors;
@@ -11,5 +12,9 @@ import lombok.experimental.Accessors;
 @Data
 @Accessors(chain = true)
 public class WebResponse {
+
     FullHttpResponse fullHttpResponse;
+
+    ChannelHandlerContext ctx;
+
 }

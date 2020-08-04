@@ -18,29 +18,17 @@
         <netty.version>4.1.43.Final</netty.version>
         <commons-lang.version>3.4</commons-lang.version>
         <commons-collections.version>4.1</commons-collections.version>
+        <commons-io.version>2.6</commons-io.version>
         <jackson-databind.version>2.9.9.1</jackson-databind.version>
         <slf4j-api.version>1.7.21</slf4j-api.version>
         <logback-classic.version>1.1.7</logback-classic.version>
         <logback-core.version>1.1.7</logback-core.version>
         <javassist.version>3.23.1-GA</javassist.version>
         <lombok.version>1.18.8</lombok.version>
+        <tika.version>1.22</tika.version>
     </properties>
 
     <dependencies>
-
-        <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>javax.servlet-api</artifactId>
-            <version>3.0.1</version>
-            <scope>provided</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>jstl</artifactId>
-            <version>1.2</version>
-            <scope>runtime</scope>
-        </dependency>
 
         <dependency>
             <groupId>io.netty</groupId>
@@ -58,6 +46,18 @@
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-collections4</artifactId>
             <version>${commons-collections.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>${commons-io.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.tika</groupId>
+            <artifactId>tika-core</artifactId>
+            <version>${tika.version}</version>
         </dependency>
 
         <dependency>
