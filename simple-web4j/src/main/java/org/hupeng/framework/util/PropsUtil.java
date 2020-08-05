@@ -6,7 +6,7 @@ import java.util.Properties;
 
 /**
  * @author hupeng
- * @since 2018/7/1.
+ * @since 2018/7/1
  */
 public class PropsUtil {
 

@@ -8,7 +8,7 @@ import java.util.Properties;
 
 /**
  * @author hupeng
- * @since 2018/7/1.
+ * @since 2018/7/1
  */
 public class StaticResources {
 
@@ -20,6 +20,10 @@ public class StaticResources {
      */
     public static String getPath() {
         return PropsUtil.getString(CONFIG_PROPS, Keys.Server.STATIC_RESOURCE_PATH);
+    }
+
+    public static String getConfigValue(String key) {
+        return PropsUtil.getString(CONFIG_PROPS,key);
     }
 
     /**

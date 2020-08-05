@@ -10,6 +10,8 @@ public class Keys {
 
     public static final class Server {
 
+        public static final String PORT = "server.port";
+
         public static final String STATIC_RESOURCE_PATH = "server.resources.static-locations";
 
         private Server() { }

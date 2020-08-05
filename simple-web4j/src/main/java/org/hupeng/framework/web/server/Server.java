@@ -10,14 +10,16 @@ import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.handler.codec.http.HttpObjectAggregator;
 import io.netty.handler.codec.http.HttpServerCodec;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author : hupeng
  * @date : 2020/8/3 14:02
  */
-@Slf4j
 public class Server {
+
+    private static final Logger log = LoggerFactory.getLogger(Server.class);
 
     private final ServerBootstrap serverBootstrap = new ServerBootstrap();
 

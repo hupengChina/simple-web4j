@@ -11,7 +11,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @author hupeng
- * @since 2019/3/10.
+ * @since 2019/3/10
  */
 public class DefaultBeanManager implements BeanManager {
 

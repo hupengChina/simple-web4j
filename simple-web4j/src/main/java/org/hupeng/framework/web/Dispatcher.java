@@ -1,10 +1,12 @@
 package org.hupeng.framework.web;
 
+import io.netty.handler.codec.http.HttpResponseStatus;
 import org.hupeng.framework.web.handler.*;
 import org.hupeng.framework.web.render.Renderer;
-import org.hupeng.framework.web.render.ResponseJsonRenderer;
 import org.hupeng.framework.web.server.http.WebRequest;
 import org.hupeng.framework.web.server.http.WebResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +16,8 @@ import java.util.List;
  * @date : 2020/8/3 11:31
  */
 public class Dispatcher {
+    
+    private static final Logger log = LoggerFactory.getLogger(Dispatcher.class);
 
     private static final List<HandlerMapping> handlerMappings = new ArrayList<HandlerMapping>();
 
@@ -58,6 +62,11 @@ public class Dispatcher {
 
         Object handler = getHandler(webRequest.getFullHttpRequest().uri());
 
+        if(handler == null){
+            webResponse.sendError(HttpResponseStatus.NOT_FOUND);
+            return;
+        }
+
         HandlerAdapter handlerAdapter = getHandlerAdapter(handler);
 
         HandleResult result = handlerAdapter.handle(webRequest,webResponse,handler);
@@ -67,7 +76,5 @@ public class Dispatcher {
         renderer.render(webRequest,webResponse,result);
 
     }
-
-
 
 }

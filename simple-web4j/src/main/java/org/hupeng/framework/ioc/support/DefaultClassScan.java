@@ -1,21 +1,25 @@
 package org.hupeng.framework.ioc.support;
 
-import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.hupeng.framework.ioc.Annotated.Bean;
 import org.hupeng.framework.ioc.Annotated.Controller;
 import org.hupeng.framework.util.ClassUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.JarURLConnection;
 import java.net.URL;
-import java.util.*;
+import java.util.Collection;
+import java.util.Enumeration;
+import java.util.HashSet;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
-@Slf4j
 public class DefaultClassScan {
+
+    private static final Logger log = LoggerFactory.getLogger(DefaultClassScan.class);
 
     public Collection<Class<?>> scan(String packageName){
         Collection<Class<?>> classes = new HashSet<>();

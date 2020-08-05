@@ -24,7 +24,6 @@
         <logback-classic.version>1.1.7</logback-classic.version>
         <logback-core.version>1.1.7</logback-core.version>
         <javassist.version>3.23.1-GA</javassist.version>
-        <lombok.version>1.18.8</lombok.version>
         <tika.version>1.22</tika.version>
     </properties>
 
@@ -88,13 +87,6 @@
             <groupId>org.javassist</groupId>
             <artifactId>javassist</artifactId>
             <version>${javassist.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <version>${lombok.version}</version>
-            <scope>provided</scope>
         </dependency>
 
     </dependencies>

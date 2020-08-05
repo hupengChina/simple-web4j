@@ -1,6 +1,7 @@
 package org.hupeng.framework.util;
 
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -9,8 +10,9 @@ import java.lang.reflect.Method;
  * @author hupeng
  * @since 2018/6/10.
  */
-@Slf4j
 public class ReflectionUtil {
+    
+    private static final Logger log = LoggerFactory.getLogger(ReflectionUtil.class);
 
     public static <T> Object newInstance(Class<T> clz) {
         T instance;

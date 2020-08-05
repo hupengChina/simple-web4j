@@ -1,10 +1,8 @@
 package org.hupeng.framework.util;
 
-import lombok.extern.slf4j.Slf4j;
-
 /**
  * @author hupeng
- * @since 2018/6/18.
+ * @since 2018/6/18
  */
 public class ClassUtil {
 
