@@ -9,7 +9,7 @@ import org.hupeng.framework.web.server.Server;
 
 /**
  * @author : hupeng
- * @date : 2020/8/5 11:44
+ * @date : 2020/8/5
  */
 public class SimpleWebApplication {
 

@@ -8,8 +8,8 @@ import io.netty.handler.codec.http.FullHttpResponse;
 import io.netty.handler.codec.http.HttpHeaderNames;
 import io.netty.handler.codec.http.HttpHeaderValues;
 import io.netty.handler.codec.http.HttpResponseStatus;
-
-import java.nio.charset.StandardCharsets;
+import io.netty.util.AsciiString;
+import io.netty.util.CharsetUtil;
 
 /**
  * @author : hupeng
@@ -41,7 +41,7 @@ public class WebResponse {
 
     public WebResponse setContent(final String content) {
         if(content != null){
-            this.content = content.getBytes(StandardCharsets.UTF_8);
+            this.content = content.getBytes(CharsetUtil.UTF_8);
         }
         return this;
     }
@@ -60,11 +60,11 @@ public class WebResponse {
        return ctx;
     }
 
-    public void addHeader(final String name, final String value) {
+    public void addHeader(final AsciiString name, final String value) {
         fullHttpResponse.headers().add(name, value);
     }
 
-    public void setHeader(final String name, final String value) {
+    public void setHeader(final AsciiString name, final String value) {
         fullHttpResponse.headers().set(name, value);
     }
 
@@ -73,7 +73,7 @@ public class WebResponse {
     }
 
     public void sendError(final HttpResponseStatus status){
-        fullHttpResponse.setStatus(status);
+        setStatus(status);
         writeAndFlush();
     }
 

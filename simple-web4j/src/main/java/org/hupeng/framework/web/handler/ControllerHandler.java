@@ -1,14 +1,12 @@
 package org.hupeng.framework.web.handler;
 
-import io.netty.handler.codec.http.FullHttpResponse;
 import io.netty.handler.codec.http.HttpHeaderNames;
-import org.apache.tika.Tika;
 import org.hupeng.framework.web.server.http.WebRequest;
 import org.hupeng.framework.web.server.http.WebResponse;
 
 import java.lang.reflect.Method;
 
-public class ControllerHandler {
+public class ControllerHandler implements Handler{
 
     private Class<?> controllerClass;
 
@@ -28,8 +26,7 @@ public class ControllerHandler {
     }
 
     public void handleRequest(WebRequest request, WebResponse response){
-        FullHttpResponse resp = response.getFullHttpResponse();
-        resp.headers().set(HttpHeaderNames.ACCESS_CONTROL_ALLOW_ORIGIN, "*");
-        resp.headers().set(HttpHeaderNames.CONTENT_TYPE, "application/json;charset=UTF-8");
+        response.setHeader(HttpHeaderNames.ACCESS_CONTROL_ALLOW_ORIGIN, "*");
+        response.setHeader(HttpHeaderNames.CONTENT_TYPE, "application/json;charset=UTF-8");
     }
 }

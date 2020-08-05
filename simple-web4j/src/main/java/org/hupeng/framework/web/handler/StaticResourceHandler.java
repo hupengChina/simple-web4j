@@ -11,13 +11,12 @@ import java.io.IOException;
  * @author : hupeng
  * @date : 2020/8/4
  */
-public class StaticResourceHandler {
+public class StaticResourceHandler implements Handler{
 
     private static final Tika TIKA = new Tika();
 
     public void handleRequest(WebRequest request, WebResponse response){
-        FullHttpResponse resp = response.getFullHttpResponse();
         final String contentType = TIKA.detect(request.getFullHttpRequest().uri());
-        resp.headers().set(HttpHeaderNames.CONTENT_TYPE, contentType);
+        response.setHeader(HttpHeaderNames.CONTENT_TYPE, contentType);
     }
 }
