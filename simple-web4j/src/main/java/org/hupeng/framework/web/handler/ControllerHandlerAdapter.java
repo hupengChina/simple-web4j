@@ -1,10 +1,8 @@
 package org.hupeng.framework.web.handler;
 
-import io.netty.buffer.Unpooled;
 import io.netty.handler.codec.http.*;
 import io.netty.util.CharsetUtil;
-import org.hupeng.framework.ioc.SingletonInstanceContext;
-import org.hupeng.framework.util.JsonUtil;
+import org.hupeng.framework.ioc.SingletonWebApplicationContext;
 import org.hupeng.framework.util.ReflectionUtil;
 import org.hupeng.framework.web.render.ResponseJsonRenderer;
 import org.hupeng.framework.web.server.http.WebRequest;
@@ -34,7 +32,7 @@ public class ControllerHandlerAdapter implements HandlerAdapter {
 
         Object controller = null;
         try {
-            controller = SingletonInstanceContext.getInstance().get(controllerClass);
+            controller = SingletonWebApplicationContext.getInstance().get(controllerClass);
         } catch (InstantiationException e) {
             e.printStackTrace();
         } catch (IllegalAccessException e) {

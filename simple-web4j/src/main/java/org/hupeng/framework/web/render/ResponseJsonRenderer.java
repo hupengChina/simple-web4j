@@ -13,7 +13,7 @@ public class ResponseJsonRenderer implements Renderer{
 
     @Override
     public void render(WebRequest request, WebResponse response, HandleResult handleResult) {
-        response.writeAndFlush(JsonUtil.toJson(handleResult.getResult()));
+        response.sendString(JsonUtil.toJson(handleResult.getResult()));
     }
 
 }

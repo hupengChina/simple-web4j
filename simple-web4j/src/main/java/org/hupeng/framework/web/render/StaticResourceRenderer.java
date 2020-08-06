@@ -33,7 +33,7 @@ public class StaticResourceRenderer implements Renderer {
             e.printStackTrace();
         }
 
-        response.writeAndFlush(bytes);
+        response.sendByte(bytes);
     }
 
 }

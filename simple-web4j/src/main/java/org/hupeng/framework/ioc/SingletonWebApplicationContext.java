@@ -1,9 +1,8 @@
 package org.hupeng.framework.ioc;
 
 import org.hupeng.framework.ioc.bean.Bean;
-import org.hupeng.framework.ioc.bean.DefaultBean;
-import org.hupeng.framework.ioc.bean.FieldBean;
 import org.hupeng.framework.ioc.support.DefaultClassScan;
+import org.hupeng.framework.ioc.support.WebApplicationContext;
 import org.hupeng.framework.util.ReflectionUtil;
 
 import java.util.Collection;
@@ -16,7 +15,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * @Author: hupeng
  * @since: 2019/3/17 22:21
  */
-public class SingletonInstanceContext {
+public class SingletonWebApplicationContext implements WebApplicationContext {
 
     private DefaultClassScan defaultClassScan = new DefaultClassScan();
 
@@ -28,7 +27,7 @@ public class SingletonInstanceContext {
 
     public AtomicBoolean isInit = new AtomicBoolean(false);
 
-    private SingletonInstanceContext() {
+    private SingletonWebApplicationContext() {
         beanManager = DefaultBeanManager.getInstance();
     }
 
@@ -64,13 +63,13 @@ public class SingletonInstanceContext {
         return (T) beanReferences.get(bean);
     }
 
-    public static SingletonInstanceContext getInstance() {
+    public static SingletonWebApplicationContext getInstance() {
         return SingletonInstanceHolder.instance;
     }
 
     private static final class SingletonInstanceHolder {
 
-        private static SingletonInstanceContext instance = new SingletonInstanceContext();
+        private static SingletonWebApplicationContext instance = new SingletonWebApplicationContext();
 
         private SingletonInstanceHolder() {
         }

@@ -6,7 +6,7 @@ import org.hupeng.framework.web.server.http.WebResponse;
 
 import java.lang.reflect.Method;
 
-public class ControllerHandler implements Handler{
+public class ControllerHandler implements Handler,HttpRequestHandler{
 
     private Class<?> controllerClass;
 
@@ -25,8 +25,9 @@ public class ControllerHandler implements Handler{
         return method;
     }
 
+    @Override
     public void handleRequest(WebRequest request, WebResponse response){
-        response.setHeader(HttpHeaderNames.ACCESS_CONTROL_ALLOW_ORIGIN, "*");
-        response.setHeader(HttpHeaderNames.CONTENT_TYPE, "application/json;charset=UTF-8");
+        response.setHeader("access-control-allow-origin", "*");
+        response.setHeader("content-type", "application/json;charset=UTF-8");
     }
 }

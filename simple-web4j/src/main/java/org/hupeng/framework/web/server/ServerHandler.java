@@ -21,7 +21,6 @@ public class ServerHandler extends SimpleChannelInboundHandler<FullHttpRequest> 
                 .setFullHttpRequest(request);
         WebResponse webResponse = new WebResponse()
                 .setCtx(ctx)
-                .setFullHttpResponse(new DefaultFullHttpResponse(HttpVersion.HTTP_1_1, HttpResponseStatus.OK))
                 .setKeepAlive(HttpUtil.isKeepAlive(request));
         Dispatcher.doService(webRequest,webResponse);
     }

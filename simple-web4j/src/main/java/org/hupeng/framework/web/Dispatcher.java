@@ -30,7 +30,7 @@ public class Dispatcher {
 
     public static void initHandlerMappings(){
         handlerMappings.add(new StaticResourceHandlerMapping());
-        handlerMappings.add(new ControllerHandlerMapping().init());
+        handlerMappings.add(new ControllerHandlerMapping());
     }
 
     public static void initHandlerAdapters(){
@@ -63,7 +63,7 @@ public class Dispatcher {
         Object handler = getHandler(webRequest.getFullHttpRequest().uri());
 
         if(handler == null){
-            webResponse.sendError(HttpResponseStatus.NOT_FOUND);
+            webResponse.sendError(404);
             return;
         }
 

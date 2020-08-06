@@ -1,4 +1,4 @@
-package com.demo;
+package com.demo.web;
 
 import org.hupeng.framework.ioc.Annotated.RequestMapping;
 import org.hupeng.framework.ioc.Annotated.Controller;

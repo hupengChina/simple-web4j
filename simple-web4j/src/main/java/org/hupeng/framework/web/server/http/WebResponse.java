@@ -4,12 +4,12 @@ import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandlerContext;
-import io.netty.handler.codec.http.FullHttpResponse;
-import io.netty.handler.codec.http.HttpHeaderNames;
-import io.netty.handler.codec.http.HttpHeaderValues;
-import io.netty.handler.codec.http.HttpResponseStatus;
+import io.netty.handler.codec.http.*;
 import io.netty.util.AsciiString;
 import io.netty.util.CharsetUtil;
+
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @author : hupeng
@@ -17,22 +17,16 @@ import io.netty.util.CharsetUtil;
  */
 public class WebResponse {
 
-    private FullHttpResponse fullHttpResponse;
-
     private byte[] content;
+
+    private int status = 200;
+
+    private Map<String,String> headers = new ConcurrentHashMap();
 
     private boolean keepAlive = false;
 
     private ChannelHandlerContext ctx;
 
-    public WebResponse setFullHttpResponse(FullHttpResponse fullHttpResponse){
-        this.fullHttpResponse = fullHttpResponse;
-        return this;
-    }
-
-    public FullHttpResponse getFullHttpResponse(){
-        return fullHttpResponse;
-    }
 
     public WebResponse setContent(final byte[] content) {
         this.content = content;
@@ -60,36 +54,37 @@ public class WebResponse {
        return ctx;
     }
 
-    public void addHeader(final AsciiString name, final String value) {
-        fullHttpResponse.headers().add(name, value);
+    public WebResponse setHeader(final String name, final String value) {
+        headers.put(name, value);
+        return this;
     }
 
-    public void setHeader(final AsciiString name, final String value) {
-        fullHttpResponse.headers().set(name, value);
+    public WebResponse setStatus(final int status) {
+        this.status = status;
+        return this;
     }
 
-    public void setStatus(final HttpResponseStatus status) {
-        fullHttpResponse.setStatus(status);
-    }
-
-    public void sendError(final HttpResponseStatus status){
+    public void sendError(final int status){
         setStatus(status);
         writeAndFlush();
     }
 
-    public void writeAndFlush(final byte[] content){
+    public void sendByte(final byte[] content){
         setContent(content);
         writeAndFlush();
     }
 
-    public void writeAndFlush(final String content){
+    public void sendString(final String content){
         setContent(content);
         writeAndFlush();
     }
 
     public void writeAndFlush(){
         final ByteBuf contentBuf = null != content ? Unpooled.copiedBuffer(content) : Unpooled.EMPTY_BUFFER;
-        fullHttpResponse = fullHttpResponse.replace(contentBuf);
+        FullHttpResponse fullHttpResponse = new DefaultFullHttpResponse(HttpVersion.HTTP_1_1, HttpResponseStatus.valueOf(status),contentBuf);
+        headers.forEach((name, value) -> {
+            fullHttpResponse.headers().set(name, value);
+        });
         if (keepAlive) {
             fullHttpResponse.headers().set(HttpHeaderNames.CONNECTION, HttpHeaderValues.KEEP_ALIVE);
             fullHttpResponse.headers().setInt(HttpHeaderNames.CONTENT_LENGTH, fullHttpResponse.content().readableBytes());
