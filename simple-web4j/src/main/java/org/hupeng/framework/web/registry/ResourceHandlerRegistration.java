@@ -1,4 +1,7 @@
-package org.hupeng.framework.web.config;
+package org.hupeng.framework.web.registry;
+
+import com.sun.istack.internal.NotNull;
+import org.hupeng.framework.web.handler.ResourceHandler;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -18,8 +21,20 @@ public class ResourceHandlerRegistration {
         this.pathPatterns = pathPatterns;
     }
 
+    protected String[] getPathPatterns() {
+        return this.pathPatterns;
+    }
+
     public ResourceHandlerRegistration addResourceLocations(String... resourceLocations) {
         this.locationValues.addAll(Arrays.asList(resourceLocations));
         return this;
     }
+
+    @NotNull
+    protected ResourceHandler getRequestHandler() {
+        ResourceHandler handler = new ResourceHandler();
+        handler.setLocationValues(this.locationValues);
+        return handler;
+    }
+
 }

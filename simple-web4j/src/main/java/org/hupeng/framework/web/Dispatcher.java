@@ -1,6 +1,5 @@
 package org.hupeng.framework.web;
 
-import io.netty.handler.codec.http.HttpResponseStatus;
 import org.hupeng.framework.web.handler.*;
 import org.hupeng.framework.web.render.Renderer;
 import org.hupeng.framework.web.server.http.WebRequest;
@@ -29,12 +28,12 @@ public class Dispatcher {
     }
 
     public static void initHandlerMappings(){
-        handlerMappings.add(new StaticResourceHandlerMapping());
+        handlerMappings.add(new ResourceHandlerMapping());
         handlerMappings.add(new ControllerHandlerMapping());
     }
 
     public static void initHandlerAdapters(){
-        handlerAdapters.add(new StaticResourceHandlerAdapter());
+        handlerAdapters.add(new ResourceHandlerAdapter());
         handlerAdapters.add(new ControllerHandlerAdapter());
     }
 

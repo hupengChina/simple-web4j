@@ -45,6 +45,7 @@ public class SingletonWebApplicationContext implements WebApplicationContext {
     }
 
 
+    @Override
     public Collection<Class<?>> getClasses() {
        return beanClasses;
     }
