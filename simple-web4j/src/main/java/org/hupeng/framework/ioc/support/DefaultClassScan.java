@@ -1,7 +1,7 @@
 package org.hupeng.framework.ioc.support;
 
 import org.apache.commons.lang3.StringUtils;
-import org.hupeng.framework.ioc.Annotated.Bean;
+import org.hupeng.framework.ioc.Annotated.Configuration;
 import org.hupeng.framework.ioc.Annotated.Controller;
 import org.hupeng.framework.util.ClassUtil;
 import org.slf4j.Logger;
@@ -96,7 +96,7 @@ public class DefaultClassScan {
     }
 
     boolean checkClass(Class clazz){
-        return clazz.isAnnotationPresent(Bean.class)
-                || clazz.isAnnotationPresent(Controller.class);
+        return clazz.isAnnotationPresent(Controller.class)
+                ||clazz.isAnnotationPresent(Configuration.class);
     };
 }

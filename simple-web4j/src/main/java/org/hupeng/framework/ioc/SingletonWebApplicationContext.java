@@ -7,6 +7,7 @@ import org.hupeng.framework.util.ReflectionUtil;
 
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -49,19 +50,32 @@ public class SingletonWebApplicationContext implements WebApplicationContext {
     public Collection<Class<?>> getClasses() {
        return beanClasses;
     }
+
+
+    @Override
+    public Object getBean(String name) {
+        return null;
+    }
+
     /**
      * 获取实例
      * @param beanClass
      * @param <T>
      * @return
      */
-    public <T> T get(final Class<T> beanClass) throws InstantiationException, IllegalAccessException {
+    @Override
+    public <T> T getBean(final Class<T> beanClass) throws InstantiationException, IllegalAccessException {
         Bean<T> bean = beanManager.getBean(beanClass);
         //获取时进行实例化
         if(beanReferences.get(bean) == null){
             beanReferences.put(bean, ReflectionUtil.newInstance(beanClass));
         }
         return (T) beanReferences.get(bean);
+    }
+
+    @Override
+    public <T> List<T> getBeans(Class<T> requiredType) {
+        return null;
     }
 
     public static SingletonWebApplicationContext getInstance() {

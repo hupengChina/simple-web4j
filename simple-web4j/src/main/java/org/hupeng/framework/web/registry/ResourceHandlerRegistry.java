@@ -19,8 +19,6 @@ public class ResourceHandlerRegistry {
 
     private final List<ResourceHandlerRegistration> registrations = new ArrayList<>();
 
-    private ResourceHandlerMapping handlerMapping = new ResourceHandlerMapping();
-
     public ResourceHandlerRegistration addResourceHandler(String... pathPatterns) {
         ResourceHandlerRegistration registration = new ResourceHandlerRegistration(pathPatterns);
         this.registrations.add(registration);
@@ -28,7 +26,7 @@ public class ResourceHandlerRegistry {
     }
 
     @Nullable
-    protected HandlerMapping getHandlerMapping() {
+    public HandlerMapping getHandlerMapping() {
         if (this.registrations.isEmpty()) {
             return null;
         }
@@ -39,6 +37,7 @@ public class ResourceHandlerRegistry {
                 urlMap.put(pathPattern, handler);
             }
         }
+        ResourceHandlerMapping handlerMapping = new ResourceHandlerMapping();
         handlerMapping.setUrlMap(urlMap);
         return handlerMapping;
     }

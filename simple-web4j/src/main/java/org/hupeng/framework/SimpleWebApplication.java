@@ -5,6 +5,7 @@ import org.hupeng.framework.ioc.SingletonWebApplicationContext;
 import org.hupeng.framework.ioc.support.WebApplicationContext;
 import org.hupeng.framework.util.StringUtil;
 import org.hupeng.framework.web.Dispatcher;
+import org.hupeng.framework.web.WebApplicationLoader;
 import org.hupeng.framework.web.server.Server;
 
 /**
@@ -18,9 +19,10 @@ public class SimpleWebApplication {
     public static void run(Class<?> primarySource, String... args) {
         SingletonWebApplicationContext applicationContext = SingletonWebApplicationContext.getInstance();
         applicationContext.init(primarySource.getPackage().getName());
-        Dispatcher.init();
+        new WebApplicationLoader().onStartup(applicationContext);
         start();
     }
+
 
     private static void start(){
         String portString = StaticResources.getConfigValue(Keys.Server.PORT);

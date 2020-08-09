@@ -1,6 +1,8 @@
 package org.hupeng.framework.web;
 
+import org.hupeng.framework.ioc.SingletonWebApplicationContext;
 import org.hupeng.framework.web.handler.*;
+import org.hupeng.framework.web.registry.ResourceHandlerRegistry;
 import org.hupeng.framework.web.render.Renderer;
 import org.hupeng.framework.web.server.http.WebRequest;
 import org.hupeng.framework.web.server.http.WebResponse;
@@ -28,8 +30,18 @@ public class Dispatcher {
     }
 
     public static void initHandlerMappings(){
-        handlerMappings.add(new ResourceHandlerMapping());
         handlerMappings.add(new ControllerHandlerMapping());
+
+        ResourceHandlerRegistry resourceHandlerRegistry = null;
+        try {
+            resourceHandlerRegistry = SingletonWebApplicationContext.getInstance().getBean(ResourceHandlerRegistry.class);
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+        resourceHandlerRegistry.addResourceHandler("/**").addResourceLocations("classpath:/static");
+        handlerMappings.add(resourceHandlerRegistry.getHandlerMapping());
     }
 
     public static void initHandlerAdapters(){
