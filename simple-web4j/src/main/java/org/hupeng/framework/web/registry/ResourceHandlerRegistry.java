@@ -1,20 +1,21 @@
 package org.hupeng.framework.web.registry;
 
 import com.sun.istack.internal.Nullable;
-import org.hupeng.framework.ioc.support.WebApplicationContext;
-import org.hupeng.framework.web.config.WebApplicationInitializer;
 import org.hupeng.framework.web.handler.HandlerMapping;
 import org.hupeng.framework.web.handler.HttpRequestHandler;
 import org.hupeng.framework.web.handler.ResourceHandler;
 import org.hupeng.framework.web.handler.ResourceHandlerMapping;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author : hupeng
  * @date : 2020/8/6
  */
-public class ResourceHandlerRegistry {
+public class ResourceHandlerRegistry implements HandlerRegistry{
 
 
     private final List<ResourceHandlerRegistration> registrations = new ArrayList<>();
@@ -31,12 +32,12 @@ public class ResourceHandlerRegistry {
             return null;
         }
         Map<String, HttpRequestHandler> urlMap = new LinkedHashMap<>();
-        for (ResourceHandlerRegistration registration : this.registrations) {
+        registrations.forEach((registration)->{
+            ResourceHandler handler = registration.getRequestHandler();
             for (String pathPattern : registration.getPathPatterns()) {
-                ResourceHandler handler = registration.getRequestHandler();
                 urlMap.put(pathPattern, handler);
             }
-        }
+        });
         ResourceHandlerMapping handlerMapping = new ResourceHandlerMapping();
         handlerMapping.setUrlMap(urlMap);
         return handlerMapping;

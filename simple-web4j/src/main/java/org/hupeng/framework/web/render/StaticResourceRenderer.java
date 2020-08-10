@@ -8,6 +8,7 @@ import org.hupeng.framework.web.server.http.WebResponse;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 /**
  * @author : hupeng
@@ -17,23 +18,41 @@ public class StaticResourceRenderer implements Renderer {
 
     @Override
     public void render(WebRequest request, WebResponse response, HandleResult handleResult) {
-
         String uri = request.getFullHttpRequest().uri();
-        String path = StaticResourceRenderer.class.getResource("/").getPath();
-        if (StringUtils.contains(path, "/target/classes/") || StringUtils.contains(path, "/target/test-classes/")) {
-            path = StringUtils.replace(path, "/target/classes/", "/src/main/resources");
-            path = StringUtils.replace(path, "/target/test-classes/", "/src/main/resources");
-        }
-        path += uri;
-        byte[] bytes = new byte[0];
-        try {
-            path = path.substring(1,path.length());
-            bytes = FileUtils.readFileToByteArray(new File(path));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
 
-        response.sendByte(bytes);
+        byte[] bytes = null;
+
+        List<String> locationValues = null;
+        Object result = handleResult.getResult();
+        if(result != null){
+           locationValues = (List<String>) result;
+        }
+        if(locationValues != null){
+            for (String locationValue:locationValues) {
+                if(locationValue.startsWith("classpath:")){
+                    String path = StaticResourceRenderer.class.getResource("/").getPath();
+                    if (StringUtils.contains(path, "/target/classes/")) {
+                        path = StringUtils.replace(path, "/target/classes/", "/src/main/resources");
+                    }
+                    path = path.substring(1,path.length()) + locationValue.replace("classpath:","") + uri;
+                    bytes = new byte[0];
+                    try {
+                        bytes = FileUtils.readFileToByteArray(new File(path));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+                if(bytes != null){
+                    response.sendByte(bytes);
+                    return;
+                }
+            }
+        }
+        if(bytes == null){
+            response.sendError(404);
+        }
     }
+
+
 
 }

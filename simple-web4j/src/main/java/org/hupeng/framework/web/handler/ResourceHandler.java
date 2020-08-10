@@ -20,6 +20,10 @@ public class ResourceHandler implements Handler,HttpRequestHandler{
         this.locationValues = locationValues;
     }
 
+    public List<String> getLocationValues(){
+        return locationValues;
+    }
+
     @Override
     public void handleRequest(WebRequest request, WebResponse response){
         final String contentType = TIKA.detect(request.getFullHttpRequest().uri());

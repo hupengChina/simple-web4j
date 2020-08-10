@@ -20,7 +20,9 @@ public class ResourceHandlerAdapter implements HandlerAdapter{
     public HandleResult handle(WebRequest request, WebResponse response, Object handler) {
         ResourceHandler resourceHandler = (ResourceHandler)handler;
         resourceHandler.handleRequest(request,response);
+        resourceHandler.getLocationValues();
         HandleResult handleResult = new HandleResult();
+        handleResult.setResult(resourceHandler.getLocationValues());//todo handleResult 可扩展
         handleResult.setRenderer(new StaticResourceRenderer());
         return handleResult;
     }

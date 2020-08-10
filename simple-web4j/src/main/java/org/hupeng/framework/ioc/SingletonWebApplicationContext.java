@@ -64,7 +64,7 @@ public class SingletonWebApplicationContext implements WebApplicationContext {
      * @return
      */
     @Override
-    public <T> T getBean(final Class<T> beanClass) throws InstantiationException, IllegalAccessException {
+    public <T> T getBean(final Class<T> beanClass) {
         Bean<T> bean = beanManager.getBean(beanClass);
         //获取时进行实例化
         if(beanReferences.get(bean) == null){

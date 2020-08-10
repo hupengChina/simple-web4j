@@ -9,7 +9,7 @@ public interface WebApplicationContext {
 
     Object getBean(String name);
 
-    <T> T getBean(Class<T> requiredType) throws InstantiationException, IllegalAccessException;
+    <T> T getBean(Class<T> requiredType);
 
     Collection<Class<?>> getClasses();
 }

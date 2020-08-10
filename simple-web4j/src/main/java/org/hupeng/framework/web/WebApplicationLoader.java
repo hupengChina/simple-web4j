@@ -2,6 +2,10 @@ package org.hupeng.framework.web;
 
 import org.hupeng.framework.ioc.support.WebApplicationContext;
 import org.hupeng.framework.web.config.WebApplicationInitializer;
+import org.hupeng.framework.web.config.WebConfigurer;
+import org.hupeng.framework.web.handler.HandlerMapping;
+import org.hupeng.framework.web.registry.HandlerRegistry;
+import org.hupeng.framework.web.registry.ResourceHandlerRegistry;
 
 import java.util.List;
 
@@ -13,18 +17,43 @@ public class WebApplicationLoader implements WebApplicationInitializer {
 
 
     @Override
-    public void onStartup(WebApplicationContext applicationContext) {
+    public void onStartup(WebApplicationContext context) {
 
-        initializerStartup(applicationContext);
+        Dispatcher.init(context);
+
+        configureResourceHandler(context);
+
+        configureHandlerMapping(context.getBeans(HandlerRegistry.class));
+
+        initializerStartup(context);
+    }
+
+    protected void configureResourceHandler(WebApplicationContext context) {
+        final ResourceHandlerRegistry registry = context.getBean(ResourceHandlerRegistry.class);
+        if (registry != null) {
+            List<WebConfigurer> webConfigurers = context.getBeans(WebConfigurer.class);
+            if(webConfigurers != null){
+                webConfigurers.forEach(webConfigurer -> {webConfigurer.addResourceHandlers(registry);});
+            }
+        }
+    }
+
+    protected void configureHandlerMapping(List<HandlerRegistry> handlerRegistries) {
+        handlerRegistries.forEach((handlerRegistry)->{
+            HandlerMapping handlerMapping = handlerRegistry.getHandlerMapping();
+            if(handlerMapping != null) {
+                Dispatcher.addHandlerMapping(handlerMapping);
+            }
+        });
     }
 
 
 
-    public void initializerStartup(WebApplicationContext applicationContext){
-        final List<WebApplicationInitializer> initializers = applicationContext.getBeans(WebApplicationInitializer.class);
+    public void initializerStartup(WebApplicationContext context){
+        final List<WebApplicationInitializer> initializers = context.getBeans(WebApplicationInitializer.class);
         if(initializers != null){
             for (final WebApplicationInitializer initializer : initializers) {
-                initializer.onStartup(applicationContext);
+                initializer.onStartup(context);
             }
         }
     }

@@ -9,9 +9,9 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class ControllerHandlerMapping implements HandlerMapping {
+public class RequestMappingHandlerMapping implements HandlerMapping {
 
-    private final static Map<String, ControllerHandler> handlerReferences = new ConcurrentHashMap<>();
+    private final static Map<String, RequestMappingHandler> handlerReferences = new ConcurrentHashMap<>();
 
     static {
         Collection<Class<?>> classes = SingletonWebApplicationContext.getInstance().getClasses();
@@ -23,8 +23,8 @@ public class ControllerHandlerMapping implements HandlerMapping {
                     RequestMapping requestMapping = method.getAnnotation(RequestMapping.class);
                     if(requestMapping != null){
                         String requestPath = requestMapping.value();
-                        ControllerHandler controllerHandler = new ControllerHandler(clazz,method);
-                        handlerReferences.put(requestPath, controllerHandler);
+                        RequestMappingHandler RequestMappingHandler = new RequestMappingHandler(clazz,method);
+                        handlerReferences.put(requestPath, RequestMappingHandler);
                     }
                 }
             }

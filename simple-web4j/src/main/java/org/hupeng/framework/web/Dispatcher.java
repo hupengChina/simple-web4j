@@ -1,6 +1,6 @@
 package org.hupeng.framework.web;
 
-import org.hupeng.framework.ioc.SingletonWebApplicationContext;
+import org.hupeng.framework.ioc.support.WebApplicationContext;
 import org.hupeng.framework.web.handler.*;
 import org.hupeng.framework.web.registry.ResourceHandlerRegistry;
 import org.hupeng.framework.web.render.Renderer;
@@ -24,29 +24,22 @@ public class Dispatcher {
 
     private static final List<HandlerAdapter> handlerAdapters = new ArrayList<HandlerAdapter>();
 
-    public static void init(){
-        initHandlerMappings();
-        initHandlerAdapters();
+    public static void init(WebApplicationContext applicationContext){
+        initHandlerMappings(applicationContext);
+        initHandlerAdapters(applicationContext);
     }
 
-    public static void initHandlerMappings(){
-        handlerMappings.add(new ControllerHandlerMapping());
-
-        ResourceHandlerRegistry resourceHandlerRegistry = null;
-        try {
-            resourceHandlerRegistry = SingletonWebApplicationContext.getInstance().getBean(ResourceHandlerRegistry.class);
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        }
-        resourceHandlerRegistry.addResourceHandler("/**").addResourceLocations("classpath:/static");
-        handlerMappings.add(resourceHandlerRegistry.getHandlerMapping());
+    public static void initHandlerMappings(WebApplicationContext applicationContext){
+        addHandlerMapping(new RequestMappingHandlerMapping());
     }
 
-    public static void initHandlerAdapters(){
+    public static void addHandlerMapping(HandlerMapping handlerMapping){
+        handlerMappings.add(handlerMapping);
+    }
+
+    public static void initHandlerAdapters(WebApplicationContext applicationContext){
         handlerAdapters.add(new ResourceHandlerAdapter());
-        handlerAdapters.add(new ControllerHandlerAdapter());
+        handlerAdapters.add(new RequestMappingHandlerAdapter());
     }
 
     private static Object getHandler(String requestPath){

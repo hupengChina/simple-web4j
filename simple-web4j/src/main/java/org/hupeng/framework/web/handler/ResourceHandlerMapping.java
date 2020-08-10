@@ -1,10 +1,10 @@
 package org.hupeng.framework.web.handler;
 
-import org.hupeng.framework.helper.StaticResources;
 import org.hupeng.framework.util.AntPathMatcher;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * @author : hupeng
@@ -20,12 +20,13 @@ public class ResourceHandlerMapping implements HandlerMapping {
 
     @Override
     public Object getHandler(String requestPath) {
-
-        urlMap.forEach((url,resourceHandler)->{
-            if(AntPathMatcher.match(url,requestPath)){
-
+        for (Map.Entry<String, HttpRequestHandler> entry : urlMap.entrySet()) {
+            String url = entry.getKey();
+            HttpRequestHandler resourceHandler = entry.getValue();
+            if (AntPathMatcher.match(url, requestPath)) {
+                return resourceHandler;
             }
-        });
+        }
         return null;
     }
 }

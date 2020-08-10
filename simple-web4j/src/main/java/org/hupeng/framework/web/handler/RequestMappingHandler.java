@@ -6,13 +6,13 @@ import org.hupeng.framework.web.server.http.WebResponse;
 
 import java.lang.reflect.Method;
 
-public class ControllerHandler implements Handler,HttpRequestHandler{
+public class RequestMappingHandler implements Handler,HttpRequestHandler{
 
     private Class<?> controllerClass;
 
     private Method method;
 
-    public ControllerHandler(Class<?> controllerClass, Method method) {
+    public RequestMappingHandler(Class<?> controllerClass, Method method) {
         this.controllerClass = controllerClass;
         this.method = method;
     }
