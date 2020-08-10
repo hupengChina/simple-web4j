@@ -9,6 +9,8 @@ public interface WebApplicationContext {
 
     Object getBean(String name);
 
+    void createBean(Class clazz);
+
     <T> T getBean(Class<T> requiredType);
 
     Collection<Class<?>> getClasses();

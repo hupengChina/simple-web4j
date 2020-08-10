@@ -21,6 +21,8 @@ public class WebApplicationLoader implements WebApplicationInitializer {
 
         Dispatcher.init(context);
 
+        context.createBean(ResourceHandlerRegistry.class);//test
+
         configureResourceHandler(context);
 
         configureHandlerMapping(context.getBeans(HandlerRegistry.class));

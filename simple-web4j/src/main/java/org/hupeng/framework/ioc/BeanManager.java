@@ -31,6 +31,6 @@ public interface BeanManager {
      */
     <T> Bean<T> getBean(final Class<T> beanClass);
 
-    Collection<Bean<?>> getBeans(final Class<? extends Annotation> stereoType);
+    Collection<Bean<?>> getBeans(final Class<?> stereoType);
 
 }

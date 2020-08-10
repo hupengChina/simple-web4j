@@ -5,10 +5,7 @@ import org.hupeng.framework.ioc.support.DefaultClassScan;
 import org.hupeng.framework.ioc.support.WebApplicationContext;
 import org.hupeng.framework.util.ReflectionUtil;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -40,7 +37,7 @@ public class SingletonWebApplicationContext implements WebApplicationContext {
         beanClasses = defaultClassScan.scan(packagePath);
         for (Class clazz: beanClasses) {
             //根据包创建bean对象
-            beanManager.createBean(clazz);
+            createBean(clazz);
         }
         isInit.set(true);
     }
@@ -52,9 +49,13 @@ public class SingletonWebApplicationContext implements WebApplicationContext {
     }
 
 
-    @Override
     public Object getBean(String name) {
         return null;
+    }
+
+    @Override
+    public void createBean(Class clazz) {
+        beanManager.createBean(clazz);
     }
 
     /**
@@ -75,7 +76,13 @@ public class SingletonWebApplicationContext implements WebApplicationContext {
 
     @Override
     public <T> List<T> getBeans(Class<T> requiredType) {
-        return null;
+        List<T> beanObjects = new ArrayList<>();
+        Collection<Bean<?>> beans = beanManager.getBeans(requiredType);
+        beans.forEach(bean -> {
+            T o = (T) getBean(bean.getBeanClass());
+            beanObjects.add(o);
+        });
+        return beanObjects;
     }
 
     public static SingletonWebApplicationContext getInstance() {
