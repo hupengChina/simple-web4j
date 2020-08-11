@@ -8,6 +8,8 @@ import org.hupeng.framework.web.Dispatcher;
 import org.hupeng.framework.web.WebApplicationLoader;
 import org.hupeng.framework.web.server.Server;
 
+import java.text.SimpleDateFormat;
+
 /**
  * @author : hupeng
  * @date : 2020/8/5
@@ -17,10 +19,16 @@ public class SimpleWebApplication {
     private static int port = 80;
 
     public static void run(Class<?> primarySource, String... args) {
-        SingletonWebApplicationContext applicationContext = SingletonWebApplicationContext.getInstance();
-        applicationContext.init(primarySource.getPackage().getName());
+        String packagePath = primarySource.getPackage().getName();
+        SingletonWebApplicationContext applicationContext = prepareApplicationContext(packagePath);
         new WebApplicationLoader().onStartup(applicationContext);
         start();
+    }
+
+    protected static SingletonWebApplicationContext prepareApplicationContext(String packagePath) {
+        SingletonWebApplicationContext applicationContext =SingletonWebApplicationContext.getInstance();
+        applicationContext.init(packagePath);
+        return applicationContext;
     }
 
 

@@ -3,8 +3,9 @@ package org.hupeng.framework.web;
 import org.hupeng.framework.ioc.support.WebApplicationContext;
 import org.hupeng.framework.web.config.WebApplicationInitializer;
 import org.hupeng.framework.web.config.WebConfigurer;
-import org.hupeng.framework.web.handler.HandlerMapping;
+import org.hupeng.framework.web.handler.*;
 import org.hupeng.framework.web.registry.HandlerRegistry;
+import org.hupeng.framework.web.registry.RequestMappingHandlerRegistry;
 import org.hupeng.framework.web.registry.ResourceHandlerRegistry;
 
 import java.util.List;
@@ -19,15 +20,28 @@ public class WebApplicationLoader implements WebApplicationInitializer {
     @Override
     public void onStartup(WebApplicationContext context) {
 
-        Dispatcher.init(context);
-
-        context.createBean(ResourceHandlerRegistry.class);//test
+        initializer(context);
 
         configureResourceHandler(context);
+        configureRequestMappingHandler(context);
 
         configureHandlerMapping(context.getBeans(HandlerRegistry.class));
+        configureHandlerAdapter(context.getBeans(HandlerAdapter.class));
 
         initializerStartup(context);
+    }
+
+    protected void initializer(WebApplicationContext context){
+        context.createBean(ResourceHandlerRegistry.class);
+        context.createBean(RequestMappingHandlerRegistry.class);
+    }
+
+
+    protected void configureRequestMappingHandler(WebApplicationContext context) {
+        final RequestMappingHandlerRegistry registry = context.getBean(RequestMappingHandlerRegistry.class);
+        if (registry != null) {
+
+        }
     }
 
     protected void configureResourceHandler(WebApplicationContext context) {
@@ -40,7 +54,16 @@ public class WebApplicationLoader implements WebApplicationInitializer {
         }
     }
 
+    protected void configureHandlerAdapter(List<HandlerAdapter> handlerAdapters) {
+        handlerAdapters.add(new ResourceHandlerAdapter());
+        handlerAdapters.add(new RequestMappingHandlerAdapter());
+        handlerAdapters.forEach(handlerAdapter -> {
+            Dispatcher.addHandlerAdapter(handlerAdapter);
+        });
+    }
+
     protected void configureHandlerMapping(List<HandlerRegistry> handlerRegistries) {
+        Dispatcher.addHandlerMapping(new RequestMappingHandlerMapping());
         handlerRegistries.forEach((handlerRegistry)->{
             HandlerMapping handlerMapping = handlerRegistry.getHandlerMapping();
             if(handlerMapping != null) {

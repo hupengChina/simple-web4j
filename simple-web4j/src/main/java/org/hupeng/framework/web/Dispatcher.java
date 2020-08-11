@@ -1,5 +1,6 @@
 package org.hupeng.framework.web;
 
+import com.sun.istack.internal.Nullable;
 import org.hupeng.framework.ioc.support.WebApplicationContext;
 import org.hupeng.framework.web.handler.*;
 import org.hupeng.framework.web.registry.ResourceHandlerRegistry;
@@ -24,24 +25,15 @@ public class Dispatcher {
 
     private static final List<HandlerAdapter> handlerAdapters = new ArrayList<HandlerAdapter>();
 
-    public static void init(WebApplicationContext applicationContext){
-        initHandlerMappings(applicationContext);
-        initHandlerAdapters(applicationContext);
-    }
-
-    public static void initHandlerMappings(WebApplicationContext applicationContext){
-        addHandlerMapping(new RequestMappingHandlerMapping());
-    }
-
     public static void addHandlerMapping(HandlerMapping handlerMapping){
         handlerMappings.add(handlerMapping);
     }
 
-    public static void initHandlerAdapters(WebApplicationContext applicationContext){
-        handlerAdapters.add(new ResourceHandlerAdapter());
-        handlerAdapters.add(new RequestMappingHandlerAdapter());
+    public static void addHandlerAdapter(HandlerAdapter handlerAdapter){
+        handlerAdapters.add(handlerAdapter);
     }
 
+    @Nullable
     private static Object getHandler(String requestPath){
         for (HandlerMapping handlerMapping:handlerMappings) {
             Object handler = handlerMapping.getHandler(requestPath);
@@ -52,6 +44,7 @@ public class Dispatcher {
         return null;
     }
 
+    @Nullable
     private static HandlerAdapter getHandlerAdapter(Object handler){
         for (HandlerAdapter handlerAdapter:handlerAdapters) {
             if(handlerAdapter.supports(handler)){

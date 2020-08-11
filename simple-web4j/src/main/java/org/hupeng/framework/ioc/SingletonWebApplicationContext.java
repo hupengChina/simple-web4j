@@ -1,5 +1,6 @@
 package org.hupeng.framework.ioc;
 
+import com.sun.istack.internal.NotNull;
 import org.hupeng.framework.ioc.bean.Bean;
 import org.hupeng.framework.ioc.support.DefaultClassScan;
 import org.hupeng.framework.ioc.support.WebApplicationContext;
@@ -74,6 +75,7 @@ public class SingletonWebApplicationContext implements WebApplicationContext {
         return (T) beanReferences.get(bean);
     }
 
+    @NotNull
     @Override
     public <T> List<T> getBeans(Class<T> requiredType) {
         List<T> beanObjects = new ArrayList<>();
