@@ -2,7 +2,7 @@ package org.hupeng.framework.ioc.support;
 
 import org.apache.commons.lang3.StringUtils;
 import org.hupeng.framework.ioc.Annotated.Configuration;
-import org.hupeng.framework.ioc.Annotated.Controller;
+import org.hupeng.framework.web.annotated.Controller;
 import org.hupeng.framework.util.ClassUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

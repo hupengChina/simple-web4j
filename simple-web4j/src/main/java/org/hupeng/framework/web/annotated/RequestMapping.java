@@ -1,11 +1,16 @@
-package org.hupeng.framework.ioc.Annotated;
+package org.hupeng.framework.web.annotated;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-@Target(ElementType.TYPE)
+@Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface Controller {
+public @interface RequestMapping {
+
+    String method() default "GET";
+
+    String value();
+
 }

@@ -1,15 +1,18 @@
 package org.hupeng.framework.web.handler;
 
-import org.hupeng.framework.ioc.Annotated.RequestMapping;
-import org.hupeng.framework.ioc.Annotated.Controller;
+import org.hupeng.framework.web.annotated.RequestMapping;
+import org.hupeng.framework.web.annotated.Controller;
 import org.hupeng.framework.ioc.SingletonWebApplicationContext;
+import org.hupeng.framework.web.annotated.RequestMappingInfo;
+import org.hupeng.framework.web.server.http.WebRequest;
 
 import java.lang.reflect.Method;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class RequestMappingHandlerMapping implements HandlerMapping {
+public class RequestMappingHandlerMapping extends AbstractHandlerMethodMapping<RequestMappingInfo> {
 
     private final static Map<String, RequestMappingHandler> handlerReferences = new ConcurrentHashMap<>();
 
@@ -32,8 +35,12 @@ public class RequestMappingHandlerMapping implements HandlerMapping {
     }
 
     @Override
-    public Object getHandler(String requestPath) {
-        return handlerReferences.get(requestPath);
+    protected Object getHandlerInternal(WebRequest request) {
+        return handlerReferences.get(request.getFullHttpRequest().uri());
     }
 
+    @Override
+    protected boolean matchingMapping(RequestMappingInfo mapping, WebRequest request) {
+        return mapping.matchingCondition(request);
+    }
 }
