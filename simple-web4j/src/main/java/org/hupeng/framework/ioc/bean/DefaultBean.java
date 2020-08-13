@@ -6,7 +6,7 @@ import java.util.Set;
  * @Author: hupeng
  * @since: 2019/3/17
  */
-public class DefaultBean<T> implements Bean {
+public class DefaultBean<T> implements BeanDefinition {
 
     private String name;
 

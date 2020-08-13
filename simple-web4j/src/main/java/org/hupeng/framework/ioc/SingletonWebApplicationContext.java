@@ -1,7 +1,7 @@
 package org.hupeng.framework.ioc;
 
 import com.sun.istack.internal.NotNull;
-import org.hupeng.framework.ioc.bean.Bean;
+import org.hupeng.framework.ioc.bean.BeanDefinition;
 import org.hupeng.framework.ioc.support.DefaultClassScan;
 import org.hupeng.framework.ioc.support.WebApplicationContext;
 import org.hupeng.framework.util.ReflectionUtil;
@@ -18,7 +18,7 @@ public class SingletonWebApplicationContext implements WebApplicationContext {
 
     private DefaultClassScan defaultClassScan = new DefaultClassScan();
 
-    private Map<Bean<?>, Object> beanReferences = new ConcurrentHashMap<>();
+    private Map<BeanDefinition<?>, Object> beanReferences = new ConcurrentHashMap<>();
 
     private Collection<Class<?>> beanClasses = new HashSet<>();
 
@@ -67,7 +67,7 @@ public class SingletonWebApplicationContext implements WebApplicationContext {
      */
     @Override
     public <T> T getBean(final Class<T> beanClass) {
-        Bean<T> bean = beanManager.getBean(beanClass);
+        BeanDefinition<T> bean = beanManager.getBean(beanClass);
         //获取时进行实例化
         if(beanReferences.get(bean) == null){
             beanReferences.put(bean, ReflectionUtil.newInstance(beanClass));
@@ -79,7 +79,7 @@ public class SingletonWebApplicationContext implements WebApplicationContext {
     @Override
     public <T> List<T> getBeans(Class<T> requiredType) {
         List<T> beanObjects = new ArrayList<>();
-        Collection<Bean<?>> beans = beanManager.getBeans(requiredType);
+        Collection<BeanDefinition<?>> beans = beanManager.getBeans(requiredType);
         beans.forEach(bean -> {
             T o = (T) getBean(bean.getBeanClass());
             beanObjects.add(o);

@@ -34,9 +34,9 @@ public class Dispatcher {
     }
 
     @Nullable
-    private static Object getHandler(String requestPath){
-        for (HandlerMapping handlerMapping:handlerMappings) {
-            Object handler = handlerMapping.getHandler(requestPath);
+    private static Object getHandler(WebRequest request){
+        for (HandlerMapping handlerMapping : handlerMappings) {
+            Object handler = handlerMapping.getHandler(request);
             if(handler != null){
                 return handler;
             }
@@ -57,7 +57,7 @@ public class Dispatcher {
 
     public static void doService(WebRequest webRequest, WebResponse webResponse){
 
-        Object handler = getHandler(webRequest.getFullHttpRequest().uri());
+        Object handler = getHandler(webRequest);
 
         if(handler == null){
             webResponse.sendError(404);

@@ -1,10 +1,8 @@
 package org.hupeng.framework.ioc;
 
-import org.hupeng.framework.ioc.bean.Bean;
+import org.hupeng.framework.ioc.bean.BeanDefinition;
 
-import java.lang.annotation.Annotation;
 import java.util.Collection;
-import java.util.Set;
 
 
 public interface BeanManager {
@@ -15,13 +13,13 @@ public interface BeanManager {
      * @param <T>
      * @return
      */
-    <T> Bean<T> createBean(Class<T> beanClass);
+    <T> BeanDefinition<T> createBean(Class<T> beanClass);
 
     /**
      * 添加bean
      * @param bean
      */
-    void addBean(final Bean<?> bean);
+    void addBean(final BeanDefinition<?> bean);
 
     /**
      * 获取bean
@@ -29,8 +27,8 @@ public interface BeanManager {
      * @param <T>
      * @return
      */
-    <T> Bean<T> getBean(final Class<T> beanClass);
+    <T> BeanDefinition<T> getBean(final Class<T> beanClass);
 
-    Collection<Bean<?>> getBeans(final Class<?> stereoType);
+    Collection<BeanDefinition<?>> getBeans(final Class<?> stereoType);
 
 }

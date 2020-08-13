@@ -18,17 +18,17 @@ public class RequestMappingHandlerAdapter implements HandlerAdapter {
 
     @Override
     public boolean supports(Object handler) {
-        return handler instanceof RequestMappingHandler;
+        return handler instanceof HandlerMethod;
     }
 
     @Override
     public HandleResult handle(WebRequest webRequest, WebResponse webResponse, Object handler) {
-        RequestMappingHandler RequestMappingHandler = (RequestMappingHandler)handler;
+        HandlerMethod handlerMethod = (HandlerMethod)handler;
         HttpMethod method = webRequest.getFullHttpRequest().method();
         String content = webRequest.getFullHttpRequest().content().toString(CharsetUtil.UTF_8);
-        RequestMappingHandler.handleRequest(webRequest,webResponse);
-        Class controllerClass = RequestMappingHandler.getControllerClass();
-        Method actionMethod = RequestMappingHandler.getMethod();
+        handlerMethod.handleRequest(webRequest,webResponse);
+        Class controllerClass = handlerMethod.getBeanType();
+        Method actionMethod = handlerMethod.getMethod();
 
         Object controller = SingletonWebApplicationContext.getInstance().getBean(controllerClass);
 

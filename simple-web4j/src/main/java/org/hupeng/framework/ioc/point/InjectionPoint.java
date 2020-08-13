@@ -1,7 +1,7 @@
 package org.hupeng.framework.ioc.point;
 
 import org.hupeng.framework.ioc.Annotated.Annotated;
-import org.hupeng.framework.ioc.bean.Bean;
+import org.hupeng.framework.ioc.bean.BeanDefinition;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Member;
@@ -25,17 +25,17 @@ public interface InjectionPoint
     Type getType();
 
     /**
-     * Get the {@link org.hupeng.framework.ioc.bean.Bean
+     * Get the {@link org.hupeng.framework.ioc.bean.BeanDefinition
      * javax.enterprise.inject.spi.Bean} object representing the
      * bean that defines the injection point. If the injection point does not
      * belong to a bean, return a null value.
      *
-     * @return the {@link org.hupeng.framework.ioc.bean.Bean
+     * @return the {@link org.hupeng.framework.ioc.bean.BeanDefinition
      * javax.enterprise.inject.spi.Bean} object representing
      * bean that defines the injection point, of null if the injection
      * point does not belong to a bean
      */
-    Bean<?> getBean();
+    BeanDefinition<?> getBean();
 
     /**
      * Get the {@link java.lang.reflect.Field} object in the case of field

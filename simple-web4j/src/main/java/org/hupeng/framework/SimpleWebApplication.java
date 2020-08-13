@@ -26,7 +26,7 @@ public class SimpleWebApplication {
     }
 
     protected static SingletonWebApplicationContext prepareApplicationContext(String packagePath) {
-        SingletonWebApplicationContext applicationContext =SingletonWebApplicationContext.getInstance();
+        SingletonWebApplicationContext applicationContext = SingletonWebApplicationContext.getInstance();
         applicationContext.init(packagePath);
         return applicationContext;
     }

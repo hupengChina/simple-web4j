@@ -12,12 +12,23 @@ public class RequestMappingInfo {
 
     String value;
 
+    String method;
+
     public String getValue() {
         return value;
     }
 
     public RequestMappingInfo setValue(String value) {
-        value = value;
+        this.value = value;
+        return this;
+    }
+
+    public String getMethod() {
+        return method;
+    }
+
+    public RequestMappingInfo setMethod(String method) {
+        this.method = method;
         return this;
     }
 
@@ -27,6 +38,6 @@ public class RequestMappingInfo {
         String uri = request.getFullHttpRequest().uri();
         HttpMethod method = request.getFullHttpRequest().method();
 
-        return value.equals(uri);
+        return this.value.equals(uri);
     }
 }

@@ -1,7 +1,7 @@
 package com.demo.web;
 
-import org.hupeng.framework.ioc.Annotated.RequestMapping;
-import org.hupeng.framework.ioc.Annotated.Controller;
+import org.hupeng.framework.web.annotated.RequestMapping;
+import org.hupeng.framework.web.annotated.Controller;
 
 import java.util.HashMap;
 

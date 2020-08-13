@@ -2,13 +2,11 @@ package org.hupeng.framework.ioc;
 
 
 import com.sun.istack.internal.NotNull;
-import org.hupeng.framework.ioc.bean.Bean;
+import org.hupeng.framework.ioc.bean.BeanDefinition;
 
-import java.lang.annotation.Annotation;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
-import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -18,7 +16,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
  */
 public class DefaultBeanManager implements BeanManager {
 
-    private static Map<String, Bean<?>> beanMap;
+    private static Map<String, BeanDefinition<?>> beanMap;
 
     /**
      * 实际创建(组装)bean对象
@@ -36,23 +34,23 @@ public class DefaultBeanManager implements BeanManager {
     }
 
     @Override
-    public <T> Bean<T> createBean(Class<T> beanClass) {
+    public <T> BeanDefinition<T> createBean(Class<T> beanClass) {
         //创建bean对象实现
         return beanConfigurator.doCreateBean(beanClass);
     }
 
     @Override
-    public void addBean(final Bean<?> bean) {
+    public void addBean(final BeanDefinition<?> bean) {
         beanMap.put(bean.getName(),bean);
     }
 
     @Override
-    public <T> Bean<T> getBean(Class<T> beanClass) {
+    public <T> BeanDefinition<T> getBean(Class<T> beanClass) {
 
-        for (final Map.Entry<String, Bean<?>> entryMap: beanMap.entrySet()) {
-            Bean<?> bean = entryMap.getValue();
+        for (final Map.Entry<String, BeanDefinition<?>> entryMap: beanMap.entrySet()) {
+            BeanDefinition<?> bean = entryMap.getValue();
             if (bean.getBeanClass().equals(beanClass)) {
-                return (Bean<T>) bean;
+                return (BeanDefinition<T>) bean;
             }
         }
         throw new RuntimeException("Not found bean [beanClass=" + beanClass.getName() + ']');
@@ -61,11 +59,11 @@ public class DefaultBeanManager implements BeanManager {
 
     @NotNull
     @Override
-    public Collection<Bean<?>> getBeans(Class<?> stereoType) {
-        Collection<Bean<?>> beans = new ArrayList<>();
+    public Collection<BeanDefinition<?>> getBeans(Class<?> stereoType) {
+        Collection<BeanDefinition<?>> beans = new ArrayList<>();
         AtomicBoolean isBean = new AtomicBoolean(false);
-        for (final Map.Entry<String, Bean<?>> entryMap: beanMap.entrySet()) {
-            Bean<?> bean = entryMap.getValue();
+        for (final Map.Entry<String, BeanDefinition<?>> entryMap: beanMap.entrySet()) {
+            BeanDefinition<?> bean = entryMap.getValue();
             Class<?> clazz = bean.getBeanClass();
             while(clazz != null && !isBean.get()){
                 //是获取的子类

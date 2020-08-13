@@ -1,6 +1,6 @@
 package org.hupeng.framework.ioc.bean;
 
-public interface Bean<T> {
+public interface BeanDefinition<T> {
 
     String getName();
 
