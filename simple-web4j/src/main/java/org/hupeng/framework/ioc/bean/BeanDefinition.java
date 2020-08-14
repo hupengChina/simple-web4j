@@ -6,4 +6,10 @@ public interface BeanDefinition<T> {
 
     Class<?> getBeanClass();
 
+    boolean isSynthetic();
+
+    boolean isExternallyManagedInitMethod(String initMethod);
+
+    public String getInitMethodName();
+
 }
