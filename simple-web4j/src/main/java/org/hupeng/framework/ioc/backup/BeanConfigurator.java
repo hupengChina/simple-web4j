@@ -1,7 +1,8 @@
-package org.hupeng.framework.ioc;
+package org.hupeng.framework.ioc.backup;
 
+import org.hupeng.framework.ioc.backup.BeanManager;
 import org.hupeng.framework.ioc.bean.BeanDefinition;
-import org.hupeng.framework.ioc.bean.DefaultBean;
+import org.hupeng.framework.ioc.bean.DefaultBeanDefinition;
 
 /**
  * @Author: hupeng
@@ -22,7 +23,7 @@ public class BeanConfigurator {
      * @return
      */
     public <T> BeanDefinition<T> doCreateBean(Class<T> beanClass) {
-        BeanDefinition<T> bean = new DefaultBean(beanClass);
+        BeanDefinition<T> bean = new DefaultBeanDefinition(beanClass);
         //将生成的bean对象交由beanManager管理
         beanManager.addBean(bean);
         return bean;

@@ -1,20 +1,23 @@
 package org.hupeng.framework.ioc.bean;
 
+import com.sun.istack.internal.NotNull;
 import com.sun.istack.internal.Nullable;
 
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
  * @Author: hupeng
  * @since: 2019/3/17
  */
-public class DefaultBean<T> implements BeanDefinition {
+public class DefaultBeanDefinition<T> implements BeanDefinition {
 
     private String name;
 
-    private Set<FieldBean> fieldValues;
-
     private Class<T> beanClass;
+
+    private Collection<PropertyValue> propertyValues = new HashSet<>();
 
     @Nullable
     private String initMethodName;
@@ -25,11 +28,18 @@ public class DefaultBean<T> implements BeanDefinition {
         this.synthetic = synthetic;
     }
 
-    /**
-     * Return whether this bean definition is 'synthetic', that is, not defined by the application itself.
-     */
     public boolean isSynthetic() {
         return this.synthetic;
+    }
+
+    public void setPropertyValues(Collection<PropertyValue> propertyValues) {
+        this.propertyValues = propertyValues;
+    }
+
+    @NotNull
+    @Override
+    public Collection<PropertyValue> getPropertyValues() {
+        return propertyValues;
     }
 
     @Override
@@ -51,14 +61,6 @@ public class DefaultBean<T> implements BeanDefinition {
         this.name = name;
     }
 
-    public Set<FieldBean> getFieldValues() {
-        return fieldValues;
-    }
-
-    public void setFieldValues(Set<FieldBean> fieldValues) {
-        this.fieldValues = fieldValues;
-    }
-
     @Override
     public Class<T> getBeanClass() {
         return beanClass;
@@ -68,7 +70,7 @@ public class DefaultBean<T> implements BeanDefinition {
         this.beanClass = beanClass;
     }
 
-    public DefaultBean(final Class<T> beanClass){
+    public DefaultBeanDefinition(final Class<T> beanClass){
         this.beanClass = beanClass;
         this.name = beanClass.getSimpleName();
     }

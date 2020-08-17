@@ -12,10 +12,22 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class DefaultSingletonBeanRegistry implements SingletonBeanRegistry {
 
+    //单例集合beanName-object
     private final Map<String, Object> singletonObjects = new ConcurrentHashMap<>();
 
+    private final Map<String, ObjectFactory<?>> singletonFactories = new HashMap<>();
+
+    private final Map<String, Object> earlySingletonObjects = new HashMap<>();
+
+    private final Set<String> registeredSingletons = new LinkedHashSet<>();
+
+    //当前正在创建的单例beanName集合
+    private final Set<String> singletonsCurrentlyInCreation = Collections.newSetFromMap(new ConcurrentHashMap<>());
+
+    //key-key依赖的bean集合
     private final Map<String, Set<String>> dependentBeanMap = new ConcurrentHashMap<>();
 
+    //key-依赖key的bean集合
     private final Map<String, Set<String>> dependenciesForBeanMap = new ConcurrentHashMap<>();
 
     @Override
@@ -88,12 +100,35 @@ public class DefaultSingletonBeanRegistry implements SingletonBeanRegistry {
         synchronized (this.singletonObjects) {
             Object singletonObject = this.singletonObjects.get(beanName);
             if (singletonObject == null) {
-                singletonObject = singletonFactory.getObject();
-                addSingleton(beanName, singletonObject);
+                beforeSingletonCreation(beanName);//标记开始创建单例
+                try {
+                    singletonObject = singletonFactory.getObject();
+                    addSingleton(beanName, singletonObject);
+                } finally {
+                    afterSingletonCreation(beanName);//去除标记开始创建单例，结束创建
+                }
+
             }
             return singletonObject;
         }
     }
+
+    protected void beforeSingletonCreation(String beanName) {
+        if (!this.singletonsCurrentlyInCreation.add(beanName)) {
+            throw new IllegalStateException("Singleton '" + beanName + "' currently in creation");
+        }
+    }
+
+    protected void afterSingletonCreation(String beanName) {
+        if (!this.singletonsCurrentlyInCreation.remove(beanName)) {
+            throw new IllegalStateException("Singleton '" + beanName + "' isn't currently in creation");
+        }
+    }
+
+    public boolean isSingletonCurrentlyInCreation(String beanName) {
+        return this.singletonsCurrentlyInCreation.contains(beanName);
+    }
+
 
     protected void addSingleton(String beanName, Object singletonObject) {
         synchronized (this.singletonObjects) {

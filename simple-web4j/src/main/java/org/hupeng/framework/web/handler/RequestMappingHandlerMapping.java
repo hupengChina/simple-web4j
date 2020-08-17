@@ -17,6 +17,9 @@ public class RequestMappingHandlerMapping extends AbstractHandlerMethodMapping<R
     @Override
     protected RequestMappingInfo getMappingForMethod(Method method, Class<?> handlerType) {
         RequestMapping requestMapping = method.getAnnotation(RequestMapping.class);
+        if(requestMapping == null){
+            return null;
+        }
         RequestMappingInfo requestMappingInfo = new RequestMappingInfo();
         requestMappingInfo.setValue(requestMapping.value()).setMethod(requestMapping.method());
         return requestMappingInfo;

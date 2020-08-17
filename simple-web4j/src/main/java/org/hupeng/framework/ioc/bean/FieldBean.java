@@ -10,7 +10,7 @@ public class FieldBean {
 
     private Field field;
 
-    private DefaultBean value;
+    private BeanDefinition value;
 
     public Field getField() {
         return field;
@@ -20,11 +20,11 @@ public class FieldBean {
         this.field = field;
     }
 
-    public DefaultBean getValue() {
+    public BeanDefinition getValue() {
         return value;
     }
 
-    public void setValue(DefaultBean value) {
+    public void setValue(BeanDefinition value) {
         this.value = value;
     }
 

@@ -2,7 +2,7 @@ package org.hupeng.framework.web.handler;
 
 import io.netty.handler.codec.http.*;
 import io.netty.util.CharsetUtil;
-import org.hupeng.framework.ioc.SingletonWebApplicationContext;
+import org.hupeng.framework.ioc.backup.SingletonWebApplicationContext;
 import org.hupeng.framework.util.ReflectionUtil;
 import org.hupeng.framework.web.render.ResponseJsonRenderer;
 import org.hupeng.framework.web.server.http.WebRequest;

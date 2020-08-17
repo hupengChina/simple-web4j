@@ -20,6 +20,7 @@ public abstract class AbstractBeanFactory extends DefaultSingletonBeanRegistry i
 
     private ClassLoader beanClassLoader = ClassUtil.getClassLoader();
 
+    //创建过的beanName集合
     private final Set<String> alreadyCreated = Collections.newSetFromMap(new ConcurrentHashMap<>(256));
 
     private final List<BeanPostProcessor> beanPostProcessors = new CopyOnWriteArrayList<>();

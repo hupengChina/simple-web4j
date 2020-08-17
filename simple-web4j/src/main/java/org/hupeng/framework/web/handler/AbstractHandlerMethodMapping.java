@@ -4,7 +4,6 @@ import com.sun.istack.internal.Nullable;
 import org.apache.commons.collections4.MultiValuedMap;
 import org.apache.commons.collections4.multimap.ArrayListValuedHashMap;
 import org.hupeng.framework.ioc.bean.InitializingBean;
-import org.hupeng.framework.web.annotated.RequestMapping;
 import org.hupeng.framework.web.server.http.WebRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,9 +45,9 @@ public abstract class AbstractHandlerMethodMapping<T> extends AbstractHandlerMap
             Map<Method, T> methodMap = new LinkedHashMap<>();
             Method[] methods = handlerType.getMethods();
             for (Method method: methods) {
-                RequestMapping requestMapping = method.getAnnotation(RequestMapping.class);
-                if(requestMapping != null){
-                    methodMap.put(method,(T) getMappingForMethod(method,handlerType));
+                T mapping = (T) getMappingForMethod(method,handlerType);
+                if(mapping != null){
+                    methodMap.put(method,mapping);
                 }
             }
             methodMap.forEach((method, mapping) -> {

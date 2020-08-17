@@ -1,22 +1,15 @@
 package org.hupeng.framework.ioc.factory;
 
 import com.sun.istack.internal.Nullable;
-import org.apache.commons.lang3.StringUtils;
+import org.hupeng.framework.ioc.Annotated.Autowired;
 import org.hupeng.framework.ioc.Aware;
-import org.hupeng.framework.ioc.bean.BeanDefinition;
-import org.hupeng.framework.ioc.bean.BeanWrapper;
-import org.hupeng.framework.ioc.bean.BeanWrapperImpl;
-import org.hupeng.framework.ioc.bean.InitializingBean;
+import org.hupeng.framework.ioc.bean.*;
 import org.hupeng.framework.ioc.factory.config.BeanPostProcessor;
 import org.hupeng.framework.ioc.factory.support.DefaultInstantiationStrategy;
 import org.hupeng.framework.ioc.factory.support.InstantiationStrategy;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.security.PrivilegedActionException;
-import java.security.PrivilegedExceptionAction;
+import java.lang.reflect.Field;
+import java.util.Collection;
 
 /**
  * @author : hupeng
@@ -31,16 +24,16 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
         return doCreateBean(beanName, bd, args);
     }
 
-    protected Object doCreateBean(String beanName, BeanDefinition mbd, @Nullable Object[] args){
+    protected Object doCreateBean(String beanName, BeanDefinition bd, @Nullable Object[] args){
         //实例化
-        BeanWrapper beanWrapper = createBeanInstance(beanName, mbd, args);
+        BeanWrapper beanWrapper = createBeanInstance(beanName, bd, args);
         Object exposedObject = null;
         if(beanWrapper != null){
             exposedObject = beanWrapper.getWrappedInstance();
             //属性填充
-            populateBean(beanName, mbd, beanWrapper);
+            populateBean(beanName, bd, beanWrapper);
             //初始化
-            exposedObject = initializeBean(beanName, exposedObject, mbd);
+            exposedObject = initializeBean(beanName, exposedObject, bd);
         }
         return exposedObject;
     }
@@ -58,26 +51,46 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
      * @param mbd
      * @param bw
      */
-    protected void populateBean(String beanName, BeanDefinition mbd, @Nullable BeanWrapper bw) {
-        //todo
+    protected void populateBean(String beanName, BeanDefinition mbd, BeanWrapper bw) {
+
+        Object instance = bw.getWrappedInstance();
+        Collection<PropertyValue> propertyValues = mbd.getPropertyValues();
+        for (PropertyValue property: propertyValues) {
+            Field field = property.getField();
+            Autowired autowired = field.getAnnotation(Autowired.class);
+            if(autowired != null) {
+                String propertyName = field.getDeclaringClass().getSimpleName();
+                if (containsBean(propertyName)) {
+                    Object bean = getBean(propertyName);
+                    try {
+                        field.set(instance, bean);
+                    } catch (IllegalAccessException e) {
+                        e.printStackTrace();
+                    }
+                    registerDependentBean(propertyName, beanName);
+                }
+            }
+        }
+
+
     }
 
     /**
      * 初始化bean
      * @param beanName
      * @param bean
-     * @param mbd
+     * @param bd
      * @return
      */
-    protected Object initializeBean(String beanName, Object bean, @Nullable BeanDefinition mbd) {
+    protected Object initializeBean(String beanName, Object bean, @Nullable BeanDefinition bd) {
         invokeAwareMethods(beanName, bean);
         Object wrappedBean = bean;
-        if (mbd == null || !mbd.isSynthetic()) {//BeanPostProcessors前置处理
+        if (bd == null || !bd.isSynthetic()) {//BeanPostProcessors前置处理
             wrappedBean = applyBeanPostProcessorsBeforeInitialization(wrappedBean, beanName);
         }
         //调用初始化方法
-        invokeInitMethods(beanName, wrappedBean, mbd);
-        if (mbd == null || !mbd.isSynthetic()) {//BeanPostProcessors后置处理
+        invokeInitMethods(beanName, wrappedBean, bd);
+        if (bd == null || !bd.isSynthetic()) {//BeanPostProcessors后置处理
             wrappedBean = applyBeanPostProcessorsAfterInitialization(wrappedBean, beanName);
         }
 
