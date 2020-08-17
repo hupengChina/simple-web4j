@@ -1,10 +1,11 @@
 package org.hupeng.framework.ioc;
 
-import com.sun.istack.internal.Nullable;
 import org.hupeng.framework.ioc.factory.AutowireCapableBeanFactory;
-import org.hupeng.framework.ioc.support.DefaultClassScan;
+import org.hupeng.framework.ioc.factory.BeanFactory;
+import org.hupeng.framework.ioc.factory.DefaultBeanFactory;
 
-import java.util.Collection;
+import java.lang.annotation.Annotation;
+import java.util.Map;
 
 /**
  * @author : hupeng
@@ -12,39 +13,106 @@ import java.util.Collection;
  */
 public abstract class AbstractApplicationContext implements ConfigurableApplicationContext {
 
-    @Nullable
-    private String[] configLocations;
+
 
     @Override
     public void refresh(){
-        AutowireCapableBeanFactory beanFactory = obtainFreshBeanFactory();
+        DefaultBeanFactory beanFactory = obtainFreshBeanFactory();
 
+    }
+
+    protected DefaultBeanFactory obtainFreshBeanFactory() {
+        refreshBeanFactory();
+        return getBeanFactory();
     }
 
     protected abstract void refreshBeanFactory();
 
     @Override
-    public void setConfigLocation(String configLocation) {
-        setConfigLocations(configLocation);
+    public abstract DefaultBeanFactory getBeanFactory();
+
+    @Override
+    public AutowireCapableBeanFactory getAutowireCapableBeanFactory() {
+        return null;
     }
 
     @Override
-    public void setConfigLocations(String... configLocations) {
-        if (configLocations != null) {
-            this.configLocations = new String[configLocations.length];
-            for (int i = 0; i < configLocations.length; i++) {
-                this.configLocations[i] = configLocations[i].trim();
-            }
-        }
+    public BeanFactory getParentBeanFactory() {
+        return null;
     }
 
     @Override
-    public String[] getConfigLocations() {
-        return this.configLocations;
+    public boolean containsLocalBean(String name) {
+        return false;
     }
 
-    protected AutowireCapableBeanFactory obtainFreshBeanFactory() {
-        refreshBeanFactory();
-        return getAutowireCapableBeanFactory();
+    @Override
+    public boolean containsBeanDefinition(String beanName) {
+        return false;
+    }
+
+    @Override
+    public int getBeanDefinitionCount() {
+        return 0;
+    }
+
+    @Override
+    public String[] getBeanDefinitionNames() {
+        return new String[0];
+    }
+
+    @Override
+    public String[] getBeanNamesForType(Class<?> type) {
+        return new String[0];
+    }
+
+    @Override
+    public <T> Map<String, T> getBeansOfType(Class<T> type) {
+        return null;
+    }
+
+    @Override
+    public String[] getBeanNamesForAnnotation(Class<? extends Annotation> annotationType) {
+        return new String[0];
+    }
+
+    @Override
+    public Map<String, Object> getBeansWithAnnotation(Class<? extends Annotation> annotationType) {
+        return null;
+    }
+
+    @Override
+    public <A extends Annotation> A findAnnotationOnBean(String beanName, Class<A> annotationType) {
+        return null;
+    }
+
+    @Override
+    public Object getBean(String name) {
+        return null;
+    }
+
+    @Override
+    public <T> T getBean(String name, Class<T> requiredType) {
+        return null;
+    }
+
+    @Override
+    public Object getBean(String name, Object... args) {
+        return null;
+    }
+
+    @Override
+    public <T> T getBean(Class<T> requiredType) {
+        return null;
+    }
+
+    @Override
+    public <T> T getBean(Class<T> requiredType, Object... args) {
+        return null;
+    }
+
+    @Override
+    public boolean containsBean(String name) {
+        return false;
     }
 }

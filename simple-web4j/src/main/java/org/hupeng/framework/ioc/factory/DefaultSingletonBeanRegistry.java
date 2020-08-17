@@ -93,7 +93,7 @@ public class DefaultSingletonBeanRegistry implements SingletonBeanRegistry {
     }
 
     public Set<String> getDependentBeans(String beanName) {
-        return  this.dependentBeanMap.get(beanName);
+        return this.dependentBeanMap.get(beanName);
     }
 
     public Object getSingleton(String beanName, ObjectFactory<?> singletonFactory) {

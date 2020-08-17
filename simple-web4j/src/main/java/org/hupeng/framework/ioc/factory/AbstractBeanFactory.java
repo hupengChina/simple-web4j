@@ -16,7 +16,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
  * @author : hupeng
  * @date : 2020/8/13
  */
-public abstract class AbstractBeanFactory extends DefaultSingletonBeanRegistry implements BeanFactory {
+public abstract class AbstractBeanFactory extends DefaultSingletonBeanRegistry implements ConfigurableBeanFactory {
 
     private ClassLoader beanClassLoader = ClassUtil.getClassLoader();
 
@@ -86,5 +86,35 @@ public abstract class AbstractBeanFactory extends DefaultSingletonBeanRegistry i
 
     public List<BeanPostProcessor> getBeanPostProcessors() {
         return this.beanPostProcessors;
+    }
+
+    @Override
+    public void setParentBeanFactory(BeanFactory parentBeanFactory) throws IllegalStateException {
+
+    }
+
+    @Override
+    public void setBeanClassLoader(ClassLoader beanClassLoader) {
+
+    }
+
+    @Override
+    public ClassLoader getBeanClassLoader() {
+        return null;
+    }
+
+    @Override
+    public void addBeanPostProcessor(BeanPostProcessor beanPostProcessor) {
+
+    }
+
+    @Override
+    public BeanFactory getParentBeanFactory() {
+        return null;
+    }
+
+    @Override
+    public boolean containsLocalBean(String name) {
+        return false;
     }
 }
