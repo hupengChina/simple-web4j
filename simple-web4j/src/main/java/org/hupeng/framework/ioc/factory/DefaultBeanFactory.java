@@ -1,10 +1,12 @@
 package org.hupeng.framework.ioc.factory;
 
 import org.hupeng.framework.ioc.bean.BeanDefinition;
+import org.hupeng.framework.ioc.bean.DefaultBeanDefinition;
 
 import java.lang.annotation.Annotation;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * @author : hupeng
@@ -14,8 +16,15 @@ public class DefaultBeanFactory extends AbstractAutowireCapableBeanFactory imple
 
     private final Map<String, BeanDefinition> beanDefinitionMap = new ConcurrentHashMap<>();
 
+    private final Collection<Class<?>> beanClasses = new HashSet<>();
+
+    public Collection<Class<?>> getBeanClasses(){
+        return beanClasses;
+    }
+
     @Override
     public void registerBeanDefinition(String beanName, BeanDefinition beanDefinition) {
+        beanClasses.add(beanDefinition.getBeanClass());
         this.beanDefinitionMap.put(beanName, beanDefinition);
     }
 
@@ -51,7 +60,38 @@ public class DefaultBeanFactory extends AbstractAutowireCapableBeanFactory imple
 
     @Override
     public <T> Map<String, T> getBeansOfType(Class<T> type) {
-        return null;
+        Map<String, T> beans = new LinkedHashMap<>();
+        AtomicBoolean isBean = new AtomicBoolean(false);
+        for (final Map.Entry<String, BeanDefinition> entryMap: beanDefinitionMap.entrySet()) {
+            BeanDefinition<?> bean = entryMap.getValue();
+            Class<?> clazz = bean.getBeanClass();
+            while(clazz != null && !isBean.get()){
+                //是获取的子类
+                if (clazz.equals(type)) {
+                    isBean.set(true);
+                    break;
+                }
+                //是获取的接口实现类
+                Class<?>[] interfaces = clazz.getInterfaces();
+                if(interfaces != null){
+                    for (Class<?> anInterface : interfaces) {
+                        if (type.equals(anInterface)) {
+                            isBean.set(true);
+                            break;
+                        }
+                    }
+                }
+                clazz=clazz.getSuperclass();
+            }
+            //是则加入此bean
+            if(isBean.compareAndSet(true,false) && containsBean(bean.getName())){
+                T beanObject = (T) getBean(bean.getName());
+                if(beanObject != null) {
+                    beans.put(bean.getName(), beanObject);
+                }
+            }
+        }
+        return beans;
     }
 
     @Override

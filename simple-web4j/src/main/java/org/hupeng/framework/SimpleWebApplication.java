@@ -1,6 +1,7 @@
 package org.hupeng.framework;
 
 import org.hupeng.framework.helper.StaticResources;
+import org.hupeng.framework.ioc.DefaultApplicationContext;
 import org.hupeng.framework.ioc.backup.SingletonWebApplicationContext;
 import org.hupeng.framework.util.StringUtil;
 import org.hupeng.framework.web.WebApplicationLoader;
@@ -15,17 +16,14 @@ public class SimpleWebApplication {
     private static int port = 80;
 
     public static void run(Class<?> primarySource, String... args) {
-        String packagePath = primarySource.getPackage().getName();
-        SingletonWebApplicationContext applicationContext = prepareApplicationContext(packagePath);
+        String basePackages = primarySource.getPackage().getName();
+        DefaultApplicationContext applicationContext = new DefaultApplicationContext();
+        applicationContext.scan(basePackages);
         new WebApplicationLoader().onStartup(applicationContext);
         start();
     }
 
-    protected static SingletonWebApplicationContext prepareApplicationContext(String packagePath) {
-        SingletonWebApplicationContext applicationContext = SingletonWebApplicationContext.getInstance();
-        applicationContext.init(packagePath);
-        return applicationContext;
-    }
+
 
 
     private static void start(){

@@ -1,14 +1,10 @@
 package org.hupeng.framework.ioc.factory.support;
 
 import com.sun.istack.internal.Nullable;
-import org.hupeng.framework.ioc.ApplicationContextAware;
-import org.hupeng.framework.ioc.Aware;
+import org.hupeng.framework.ioc.AbstractApplicationContext;
+import org.hupeng.framework.ioc.support.ApplicationContextAware;
+import org.hupeng.framework.ioc.support.Aware;
 import org.hupeng.framework.ioc.factory.config.BeanPostProcessor;
-import org.hupeng.framework.ioc.support.WebApplicationContext;
-
-import java.security.AccessControlContext;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
 
 /**
  * @author : hupeng
@@ -16,9 +12,9 @@ import java.security.PrivilegedAction;
  */
 public class ApplicationContextAwareProcessor implements BeanPostProcessor {
 
-    private final WebApplicationContext applicationContext;
+    private final AbstractApplicationContext applicationContext;
 
-    public ApplicationContextAwareProcessor(WebApplicationContext applicationContext) {
+    public ApplicationContextAwareProcessor(AbstractApplicationContext applicationContext) {
         this.applicationContext = applicationContext;
     }
 

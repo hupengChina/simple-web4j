@@ -1,7 +1,7 @@
 package org.hupeng.framework.ioc.support;
 
 import com.sun.istack.internal.Nullable;
-import org.hupeng.framework.ioc.ApplicationContextAware;
+import org.hupeng.framework.ioc.AbstractApplicationContext;
 
 /**
  * @author : hupeng
@@ -10,14 +10,14 @@ import org.hupeng.framework.ioc.ApplicationContextAware;
 public class WebApplicationObjectSupport implements ApplicationContextAware {
 
     @Nullable
-    private WebApplicationContext applicationContext;
+    private AbstractApplicationContext applicationContext;
 
     @Override
-    public void setApplicationContext(WebApplicationContext applicationContext) {
+    public void setApplicationContext(AbstractApplicationContext applicationContext) {
         this.applicationContext = applicationContext;
     }
 
-    protected void initApplicationContext(WebApplicationContext context) {
+    protected void initApplicationContext(AbstractApplicationContext context) {
         initApplicationContext();
     }
 
@@ -25,12 +25,12 @@ public class WebApplicationObjectSupport implements ApplicationContextAware {
     }
 
     @Nullable
-    public final WebApplicationContext getApplicationContext() {
+    public final AbstractApplicationContext getApplicationContext() {
         return this.applicationContext;
     }
 
-    protected final WebApplicationContext obtainApplicationContext() {
-        WebApplicationContext applicationContext = getApplicationContext();
+    protected final AbstractApplicationContext obtainApplicationContext() {
+        AbstractApplicationContext applicationContext = getApplicationContext();
         return applicationContext;
     }
 }

@@ -30,7 +30,7 @@ public abstract class AbstractHandlerMethodMapping<T> extends AbstractHandlerMap
     }
 
     protected void initHandlerMethods()  {
-        Collection<Class<?>> classes = obtainApplicationContext().getClasses();
+        Collection<Class<?>> classes = obtainApplicationContext().getBeanFactory().getBeanClasses();
         for (Class beanType: classes) {
             if (isHandler(beanType)) {
                 Object handler = obtainApplicationContext().getBean(beanType);

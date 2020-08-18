@@ -1,4 +1,4 @@
-package org.hupeng.framework.ioc.support;
+package org.hupeng.framework.ioc.backup;
 
 import org.apache.commons.lang3.StringUtils;
 import org.hupeng.framework.ioc.Annotated.Configuration;

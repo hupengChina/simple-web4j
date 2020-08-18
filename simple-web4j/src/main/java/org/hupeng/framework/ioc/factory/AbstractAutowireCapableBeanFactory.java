@@ -2,7 +2,7 @@ package org.hupeng.framework.ioc.factory;
 
 import com.sun.istack.internal.Nullable;
 import org.hupeng.framework.ioc.Annotated.Autowired;
-import org.hupeng.framework.ioc.Aware;
+import org.hupeng.framework.ioc.support.Aware;
 import org.hupeng.framework.ioc.bean.*;
 import org.hupeng.framework.ioc.factory.config.BeanPostProcessor;
 import org.hupeng.framework.ioc.factory.support.DefaultInstantiationStrategy;

@@ -9,11 +9,4 @@ public interface ConfigurableApplicationContext extends ApplicationContext {
 
     DefaultBeanFactory getBeanFactory();
 
-    void setConfigLocation(String configLocation);
-
-    void setConfigLocations(String... configLocations);
-
-    @Nullable
-    String[] getConfigLocations();
-
 }
