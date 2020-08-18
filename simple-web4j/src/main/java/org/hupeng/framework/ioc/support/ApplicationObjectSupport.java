@@ -7,7 +7,7 @@ import org.hupeng.framework.ioc.AbstractApplicationContext;
  * @author : hupeng
  * @date : 2020/8/13
  */
-public class WebApplicationObjectSupport implements ApplicationContextAware {
+public class ApplicationObjectSupport implements ApplicationContextAware {
 
     @Nullable
     private AbstractApplicationContext applicationContext;

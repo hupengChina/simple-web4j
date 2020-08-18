@@ -2,7 +2,6 @@ package org.hupeng.framework;
 
 import org.hupeng.framework.helper.StaticResources;
 import org.hupeng.framework.ioc.DefaultApplicationContext;
-import org.hupeng.framework.ioc.backup.SingletonWebApplicationContext;
 import org.hupeng.framework.util.StringUtil;
 import org.hupeng.framework.web.WebApplicationLoader;
 import org.hupeng.framework.web.server.Server;
@@ -19,6 +18,7 @@ public class SimpleWebApplication {
         String basePackages = primarySource.getPackage().getName();
         DefaultApplicationContext applicationContext = new DefaultApplicationContext();
         applicationContext.scan(basePackages);
+        applicationContext.refresh();
         new WebApplicationLoader().onStartup(applicationContext);
         start();
     }

@@ -3,7 +3,6 @@ package org.hupeng.framework.web;
 import org.hupeng.framework.ioc.DefaultApplicationContext;
 import org.hupeng.framework.ioc.bean.BeanDefinition;
 import org.hupeng.framework.ioc.bean.DefaultBeanDefinition;
-import org.hupeng.framework.ioc.support.WebApplicationContext;
 import org.hupeng.framework.web.config.WebApplicationInitializer;
 import org.hupeng.framework.web.config.WebConfigurer;
 import org.hupeng.framework.web.handler.*;
@@ -11,7 +10,6 @@ import org.hupeng.framework.web.registry.HandlerRegistry;
 import org.hupeng.framework.web.registry.RequestMappingHandlerRegistry;
 import org.hupeng.framework.web.registry.ResourceHandlerRegistry;
 
-import java.util.List;
 import java.util.Map;
 
 /**

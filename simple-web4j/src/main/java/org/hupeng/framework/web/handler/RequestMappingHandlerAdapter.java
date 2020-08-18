@@ -2,7 +2,7 @@ package org.hupeng.framework.web.handler;
 
 import io.netty.handler.codec.http.*;
 import io.netty.util.CharsetUtil;
-import org.hupeng.framework.ioc.backup.SingletonWebApplicationContext;
+import org.hupeng.framework.ioc.support.ApplicationObjectSupport;
 import org.hupeng.framework.util.ReflectionUtil;
 import org.hupeng.framework.web.render.ResponseJsonRenderer;
 import org.hupeng.framework.web.server.http.WebRequest;
@@ -14,7 +14,7 @@ import java.lang.reflect.Method;
  * @author hupeng
  * @since 2018/7/8
  */
-public class RequestMappingHandlerAdapter implements HandlerAdapter {
+public class RequestMappingHandlerAdapter extends ApplicationObjectSupport implements HandlerAdapter {
 
     @Override
     public boolean supports(Object handler) {
@@ -30,7 +30,7 @@ public class RequestMappingHandlerAdapter implements HandlerAdapter {
         Class controllerClass = handlerMethod.getBeanType();
         Method actionMethod = handlerMethod.getMethod();
 
-        Object controller = SingletonWebApplicationContext.getInstance().getBean(controllerClass);
+        Object controller = obtainApplicationContext().getBean(controllerClass);
 
         Object result = ReflectionUtil.invokeMethod(controller, actionMethod);
         HandleResult handleResult = new HandleResult();
