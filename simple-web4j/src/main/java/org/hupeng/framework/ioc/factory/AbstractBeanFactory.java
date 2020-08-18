@@ -105,7 +105,7 @@ public abstract class AbstractBeanFactory extends DefaultSingletonBeanRegistry i
 
     @Override
     public void addBeanPostProcessor(BeanPostProcessor beanPostProcessor) {
-
+        this.beanPostProcessors.add(beanPostProcessor);
     }
 
     @Override
