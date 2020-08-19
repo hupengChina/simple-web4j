@@ -1,4 +1,4 @@
-package org.hupeng.framework.util;
+package org.hupeng.framework.common.util;
 
 import java.util.ArrayList;
 import java.util.Collection;

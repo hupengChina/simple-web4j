@@ -3,6 +3,7 @@ package org.hupeng.framework.context.logging;
 import org.hupeng.framework.context.ApplicationEvent;
 import org.hupeng.framework.context.GenericApplicationListener;
 import org.hupeng.framework.context.support.ResolvableType;
+import org.hupeng.framework.common.logging.LoggingSystem;
 
 /**
  * @author : hupeng
@@ -10,6 +11,7 @@ import org.hupeng.framework.context.support.ResolvableType;
  */
 public class LoggingApplicationListener implements GenericApplicationListener {
 
+    private LoggingSystem loggingSystem;
 
     @Override
     public boolean supportsEventType(ResolvableType eventType) {

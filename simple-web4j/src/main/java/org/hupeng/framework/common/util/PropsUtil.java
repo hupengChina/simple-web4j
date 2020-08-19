@@ -1,4 +1,4 @@
-package org.hupeng.framework.util;
+package org.hupeng.framework.common.util;
 
 import java.io.IOException;
 import java.io.InputStream;

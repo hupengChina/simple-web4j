@@ -1,8 +1,8 @@
 package org.hupeng.framework.web.helper;
 
-import org.hupeng.framework.web.Keys;
-import org.hupeng.framework.util.AntPathMatcher;
-import org.hupeng.framework.util.PropsUtil;
+import org.hupeng.framework.common.Keys;
+import org.hupeng.framework.common.util.AntPathMatcher;
+import org.hupeng.framework.common.util.PropsUtil;
 
 import java.util.Properties;
 

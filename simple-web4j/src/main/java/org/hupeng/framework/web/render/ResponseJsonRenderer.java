@@ -1,6 +1,6 @@
 package org.hupeng.framework.web.render;
 
-import org.hupeng.framework.util.JsonUtil;
+import org.hupeng.framework.common.util.JsonUtil;
 import org.hupeng.framework.web.handler.HandleResult;
 import org.hupeng.framework.web.server.http.WebRequest;
 import org.hupeng.framework.web.server.http.WebResponse;

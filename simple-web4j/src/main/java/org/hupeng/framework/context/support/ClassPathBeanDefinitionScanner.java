@@ -5,7 +5,7 @@ import org.hupeng.framework.context.Annotated.*;
 import org.hupeng.framework.context.bean.BeanDefinition;
 import org.hupeng.framework.context.bean.DefaultBeanDefinition;
 import org.hupeng.framework.context.factory.BeanDefinitionRegistry;
-import org.hupeng.framework.util.ClassUtil;
+import org.hupeng.framework.common.util.ClassUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

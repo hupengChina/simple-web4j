@@ -1,4 +1,4 @@
-package org.hupeng.framework.web;
+package org.hupeng.framework.common;
 
 /**
  * @author hupeng

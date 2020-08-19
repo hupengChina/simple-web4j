@@ -2,7 +2,7 @@ package org.hupeng.framework.context.factory.support;
 
 import org.hupeng.framework.context.bean.BeanDefinition;
 import org.hupeng.framework.context.factory.BeanFactory;
-import org.hupeng.framework.util.ReflectionUtil;
+import org.hupeng.framework.common.util.ReflectionUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

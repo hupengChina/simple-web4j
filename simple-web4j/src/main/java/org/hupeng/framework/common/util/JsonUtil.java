@@ -1,4 +1,4 @@
-package org.hupeng.framework.util;
+package org.hupeng.framework.common.util;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
