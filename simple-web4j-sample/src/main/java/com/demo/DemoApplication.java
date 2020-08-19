@@ -1,6 +1,6 @@
 package com.demo;
 
-import org.hupeng.framework.SimpleWebApplication;
+import org.hupeng.framework.web.SimpleWebApplication;
 
 /**
  * @author : hupeng

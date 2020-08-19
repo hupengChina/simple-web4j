@@ -1,7 +1,7 @@
 package org.hupeng.framework.web.handler;
 
 import com.sun.istack.internal.Nullable;
-import org.hupeng.framework.ioc.support.ApplicationObjectSupport;
+import org.hupeng.framework.context.support.ApplicationObjectSupport;
 import org.hupeng.framework.web.server.http.WebRequest;
 
 /**

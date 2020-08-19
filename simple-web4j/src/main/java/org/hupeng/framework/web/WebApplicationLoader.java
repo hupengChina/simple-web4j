@@ -1,8 +1,8 @@
 package org.hupeng.framework.web;
 
-import org.hupeng.framework.ioc.DefaultApplicationContext;
-import org.hupeng.framework.ioc.bean.BeanDefinition;
-import org.hupeng.framework.ioc.bean.DefaultBeanDefinition;
+import org.hupeng.framework.context.DefaultApplicationContext;
+import org.hupeng.framework.context.bean.BeanDefinition;
+import org.hupeng.framework.context.bean.DefaultBeanDefinition;
 import org.hupeng.framework.web.config.WebApplicationInitializer;
 import org.hupeng.framework.web.config.WebConfigurer;
 import org.hupeng.framework.web.handler.*;

@@ -3,7 +3,7 @@ package org.hupeng.framework.web.handler;
 import com.sun.istack.internal.Nullable;
 import org.apache.commons.collections4.MultiValuedMap;
 import org.apache.commons.collections4.multimap.ArrayListValuedHashMap;
-import org.hupeng.framework.ioc.bean.InitializingBean;
+import org.hupeng.framework.context.bean.InitializingBean;
 import org.hupeng.framework.web.server.http.WebRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
