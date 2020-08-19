@@ -3,6 +3,7 @@ package org.hupeng.framework.context.bean;
 import com.sun.istack.internal.NotNull;
 import com.sun.istack.internal.Nullable;
 
+import java.lang.reflect.Field;
 import java.util.Collection;
 import java.util.HashSet;
 
@@ -72,5 +73,11 @@ public class DefaultBeanDefinition<T> implements BeanDefinition {
     public DefaultBeanDefinition(final Class<T> beanClass){
         this.beanClass = beanClass;
         this.name = beanClass.getSimpleName();
+        Field[] fields = beanClass.getDeclaredFields();
+        if(fields != null){
+            for (Field field: fields) {
+                this.propertyValues.add(new PropertyValue(field));
+            }
+        }
     }
 }

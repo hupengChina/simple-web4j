@@ -59,10 +59,11 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
             Field field = property.getField();
             Autowired autowired = field.getAnnotation(Autowired.class);
             if(autowired != null) {
-                String propertyName = field.getDeclaringClass().getSimpleName();
+                String propertyName = field.getType().getSimpleName();
                 if (containsBean(propertyName)) {
                     Object bean = getBean(propertyName);
                     try {
+                        field.setAccessible(true);
                         field.set(instance, bean);
                     } catch (IllegalAccessException e) {
                         e.printStackTrace();

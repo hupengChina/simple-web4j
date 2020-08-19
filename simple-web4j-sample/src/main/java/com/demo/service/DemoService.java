@@ -1,14 +1,16 @@
-package com.demo.web;
+package com.demo.service;
 
-import org.hupeng.framework.web.annotated.RequestMapping;
-import org.hupeng.framework.web.annotated.Controller;
+import org.hupeng.framework.context.Annotated.Service;
 
 import java.util.HashMap;
 
-@Controller
-public class DemoController {
+/**
+ * @author : hupeng
+ * @date : 2020/8/19
+ */
+@Service
+public class DemoService {
 
-    @RequestMapping( value = "/hello")
     public Object hello(){
         HashMap<String,String> result = new HashMap<String, String>();
         result.put("status","success");

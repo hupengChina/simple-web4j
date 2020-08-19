@@ -1,6 +1,6 @@
 package org.hupeng.framework.web.handler;
 
-import org.hupeng.framework.web.annotated.Controller;
+import org.hupeng.framework.context.Annotated.Controller;
 import org.hupeng.framework.web.annotated.RequestMapping;
 import org.hupeng.framework.web.annotated.RequestMappingInfo;
 import org.hupeng.framework.web.server.http.WebRequest;

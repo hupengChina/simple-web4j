@@ -1,9 +1,13 @@
 package org.hupeng.framework.web;
 
+import org.hupeng.framework.context.ApplicationContextInitializer;
+import org.hupeng.framework.context.ConfigurableApplicationContext;
 import org.hupeng.framework.context.DefaultApplicationContext;
 import org.hupeng.framework.util.StringUtil;
 import org.hupeng.framework.web.helper.StaticResources;
 import org.hupeng.framework.web.server.Server;
+
+import java.util.*;
 
 /**
  * @author : hupeng
@@ -13,16 +17,33 @@ public class SimpleWebApplication {
 
     private static int port = 80;
 
-    public static void run(Class<?> primarySource, String... args) {
-        String basePackages = primarySource.getPackage().getName();
-        DefaultApplicationContext applicationContext = new DefaultApplicationContext();
-        applicationContext.scan(basePackages);
-        applicationContext.refresh();
-        new WebApplicationLoader().onStartup(applicationContext);
-        start();
+    private Class<?> primarySources;
+
+    private List<ApplicationContextInitializer<?>> initializers;
+
+    public static ConfigurableApplicationContext run(Class<?> primarySource, String... args) {
+        return new SimpleWebApplication(primarySource).run(args);
     }
 
+    public SimpleWebApplication(Class<?> primarySources) {
+        this.primarySources = primarySources;
+    }
 
+    public ConfigurableApplicationContext run(String... args) {
+
+        DefaultApplicationContext applicationContext = new DefaultApplicationContext();
+
+        applicationContext.scan(primarySources.getName());
+        applicationContext.refresh();
+
+        applyInitializers(applicationContext);
+
+        new WebApplicationLoader().onStartup(applicationContext);
+
+        start();
+
+        return applicationContext;
+    }
 
 
     private static void start(){
@@ -31,5 +52,15 @@ public class SimpleWebApplication {
             port = Integer.valueOf(portString);
         }
         new Server(port).start();
+    }
+
+    public Set<ApplicationContextInitializer<?>> getInitializers() {
+        return new LinkedHashSet<>(this.initializers);
+    }
+
+    protected void applyInitializers(ConfigurableApplicationContext context) {
+        for (ApplicationContextInitializer initializer : getInitializers()) {
+            initializer.initialize(context);
+        }
     }
 }
