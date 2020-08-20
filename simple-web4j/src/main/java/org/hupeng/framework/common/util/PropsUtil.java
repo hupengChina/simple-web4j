@@ -34,4 +34,37 @@ public class PropsUtil {
     public static String getString(Properties props, String key) {
         return props.getProperty(key);
     }
+
+    public static String getString(Properties props, String key, String defaultValue) {
+        return props.getProperty(key,defaultValue);
+    }
+
+    public static Boolean getBoolean(Properties props, String key, Boolean defaultValue) {
+        String value = props.getProperty(key);
+        if (value != null) {
+            if("true".equals(value)){
+                return true;
+            }
+            if("false".equals(value)){
+                return false;
+            }
+        }
+        return null;
+    }
+
+    public static Integer getInteger(Properties props, String key, Integer defaultValue) {
+        String value = props.getProperty(key);
+        if (value != null) {
+            return Integer.valueOf(value);
+        }
+        return defaultValue;
+    }
+
+    public static Long getLong(Properties props, String key, Long defaultValue) {
+        String value = props.getProperty(key);
+        if (value != null) {
+            return Long.valueOf(value);
+        }
+        return defaultValue;
+    }
 }

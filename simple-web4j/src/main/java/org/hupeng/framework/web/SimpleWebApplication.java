@@ -1,11 +1,10 @@
 package org.hupeng.framework.web;
 
-import org.hupeng.framework.common.Keys;
+import org.hupeng.framework.common.EnvironmentConfig;
 import org.hupeng.framework.common.util.StringUtil;
 import org.hupeng.framework.context.ApplicationContextInitializer;
 import org.hupeng.framework.context.ConfigurableApplicationContext;
 import org.hupeng.framework.context.DefaultApplicationContext;
-import org.hupeng.framework.web.helper.StaticResources;
 import org.hupeng.framework.web.server.Server;
 
 import java.util.LinkedHashSet;
@@ -50,7 +49,7 @@ public class SimpleWebApplication {
 
 
     private static void start(){
-        String portString = StaticResources.getConfigValue(Keys.Server.PORT);
+        String portString = EnvironmentConfig.Server.getPort();
         if(portString != null && StringUtil.isInt(portString)){
             port = Integer.valueOf(portString);
         }
