@@ -1,6 +1,5 @@
 package org.hupeng.framework.common;
 
-import org.apache.commons.lang3.StringUtils;
 import org.hupeng.framework.common.util.PropsUtil;
 
 import java.util.Properties;
@@ -16,23 +15,19 @@ public class EnvironmentConfig {
     private static final Properties CONFIG_PROPS = PropsUtil.loadProps(EnvironmentConfig.CONFIG_FILE);
 
     private static String get(String key){
-        return PropsUtil.getString(CONFIG_PROPS,key);
+        return PropsUtil.get(CONFIG_PROPS,key);
     }
 
     public static String get(String key, String defaultValue){
-        return PropsUtil.getString(CONFIG_PROPS,key,defaultValue);
+        return PropsUtil.get(CONFIG_PROPS,key,defaultValue);
     }
 
-    public static Boolean getBoolean(String key, Boolean defaultValue){
-        return PropsUtil.getBoolean(CONFIG_PROPS,key,defaultValue);
+    public static <T> T get(String key, Class<T> returnType) {
+        return PropsUtil.get(CONFIG_PROPS, key, returnType);
     }
 
-    public static Integer getInteger(String key, Integer defaultValue){
-        return PropsUtil.getInteger(CONFIG_PROPS,key,defaultValue);
-    }
-
-    public static Long getLong(String key, Long defaultValue){
-        return PropsUtil.getLong(CONFIG_PROPS,key,defaultValue);
+    public static <T> T get(String key, Class<T> returnType, T defaultValue){
+        return PropsUtil.get(CONFIG_PROPS, key, returnType,defaultValue);
     }
 
     public static final class Server {

@@ -84,8 +84,6 @@ public class WebApplicationLoader implements WebApplicationInitializer {
         });
     }
 
-
-
     public void initializerStartup(DefaultApplicationContext context){
         final Map<String,WebApplicationInitializer> initializers = context.getBeansOfType(WebApplicationInitializer.class);
         if(initializers != null){

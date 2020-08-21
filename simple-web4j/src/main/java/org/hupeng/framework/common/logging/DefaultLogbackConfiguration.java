@@ -90,7 +90,7 @@ public class DefaultLogbackConfiguration {
     }
 
     /**
-     * SizeAndTimeBasedRollingPolicy文件设置
+     * SizeAndTimeBasedRollingPolicy设置
      * @param appender
      * @param config
      * @param logFilePath
@@ -98,11 +98,11 @@ public class DefaultLogbackConfiguration {
     private void setRollingPolicy(RollingFileAppender<ILoggingEvent> appender, LogbackConfigurator config,String logFilePath) {
         SizeAndTimeBasedRollingPolicy<ILoggingEvent> rollingPolicy = new SizeAndTimeBasedRollingPolicy<>();
 
-        rollingPolicy.setCleanHistoryOnStart(EnvironmentConfig.getBoolean(EnvironmentConfig.Logging.CLEAN_HISTORY_ON_START, false));
+        rollingPolicy.setCleanHistoryOnStart(EnvironmentConfig.get(EnvironmentConfig.Logging.CLEAN_HISTORY_ON_START, Boolean.TYPE,false));
         rollingPolicy.setFileNamePattern(EnvironmentConfig.get(EnvironmentConfig.Logging.ROLLING_FILE_NAME, logFilePath + ".%d{yyyy-MM-dd}.%i.gz"));
         rollingPolicy.setMaxFileSize(EnvironmentConfig.get(EnvironmentConfig.Logging.FILE_MAX_SIZE,MAX_FILE_SIZE));
-        rollingPolicy.setMaxHistory(EnvironmentConfig.getInteger(EnvironmentConfig.Logging.FILE_MAX_HISTORY,MAX_FILE_HISTORY));
-        rollingPolicy.setTotalSizeCap(new FileSize(EnvironmentConfig.getLong(EnvironmentConfig.Logging.TOTAL_SIZE_CAP,UNBOUNDED_TOTAL_SIZE_CAP)));
+        rollingPolicy.setMaxHistory(EnvironmentConfig.get(EnvironmentConfig.Logging.FILE_MAX_HISTORY, Integer.TYPE, MAX_FILE_HISTORY));
+        rollingPolicy.setTotalSizeCap(new FileSize(EnvironmentConfig.get(EnvironmentConfig.Logging.TOTAL_SIZE_CAP, Long.TYPE, UNBOUNDED_TOTAL_SIZE_CAP)));
 
         appender.setRollingPolicy(rollingPolicy);
         rollingPolicy.setParent(appender);

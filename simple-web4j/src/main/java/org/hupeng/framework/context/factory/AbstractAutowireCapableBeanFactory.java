@@ -72,8 +72,6 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
                 }
             }
         }
-
-
     }
 
     /**

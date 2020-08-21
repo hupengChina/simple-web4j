@@ -94,12 +94,12 @@ public abstract class AbstractBeanFactory extends DefaultSingletonBeanRegistry i
 
     @Override
     public void setBeanClassLoader(ClassLoader beanClassLoader) {
-
+        this.beanClassLoader = beanClassLoader;
     }
 
     @Override
     public ClassLoader getBeanClassLoader() {
-        return null;
+        return this.beanClassLoader;
     }
 
     @Override

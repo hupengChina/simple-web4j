@@ -1,5 +1,6 @@
 package org.hupeng.framework.web.handler;
 
+import com.sun.istack.internal.Nullable;
 import org.hupeng.framework.common.util.AntPathMatcher;
 import org.hupeng.framework.web.server.http.WebRequest;
 
@@ -18,6 +19,7 @@ public class ResourceHandlerMapping extends AbstractHandlerMapping {
         this.urlMap = urlMap;
     }
 
+    @Nullable
     @Override
     public Object getHandlerInternal(WebRequest webRequest) {
         String uri = webRequest.getFullHttpRequest().uri();

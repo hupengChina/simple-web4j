@@ -41,6 +41,11 @@ public class LogbackConfigurator {
         lifeCycle.start();
     }
 
+    /**
+     * 输出图案规则设置
+     * @param conversionWord
+     * @param converterClass
+     */
     void conversionRule(String conversionWord, Class<? extends Converter> converterClass) {
         Map<String, String> registry = (Map<String, String>) this.context.getObject(CoreConstants.PATTERN_RULE_REGISTRY);
         if (registry == null) {
@@ -50,6 +55,11 @@ public class LogbackConfigurator {
         registry.put(conversionWord, converterClass.getName());
     }
 
+    /**
+     * Appender（输出目的地）添加
+     * @param name
+     * @param appender
+     */
     void appender(String name, Appender<?> appender) {
         appender.setName(name);
         start(appender);

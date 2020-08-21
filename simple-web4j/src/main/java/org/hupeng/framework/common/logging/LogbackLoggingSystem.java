@@ -67,13 +67,13 @@ public class LogbackLoggingSystem implements LoggingSystem {
     public void cleanUp() {
         LoggerContext context = getLoggerContext();
         context.getStatusManager().clear();
+        context.getTurboFilterList().remove(FILTER);
     }
 
     @Override
     public Runnable getShutdownHandler() {
         return new ShutdownHandler();
     }
-
 
     @Override
     public void setLogLevel(String loggerName, LogLevel level) {
@@ -91,7 +91,6 @@ public class LogbackLoggingSystem implements LoggingSystem {
         LoggingSystemProperties.apply();
     }
 
-
     protected void stopAndReset(LoggerContext loggerContext) {
         loggerContext.stop();
         loggerContext.reset();
@@ -100,12 +99,14 @@ public class LogbackLoggingSystem implements LoggingSystem {
     protected void loadDefaults(LoggerContext loggerContext) {
 
         stopAndReset(loggerContext);
-        LogbackConfigurator configurator = new LogbackConfigurator(loggerContext);
+
         loggerContext.putProperty(LoggingSystemProperties.LOG_LEVEL_PATTERN,
                 EnvironmentConfig.get(EnvironmentConfig.Logging.PATTERN_LEVEL,"%5p"));
         loggerContext.putProperty(LoggingSystemProperties.LOG_DATEFORMAT_PATTERN,
                 EnvironmentConfig.get(EnvironmentConfig.Logging.PATTERN_DATEFORMAT,"yyyy-MM-dd HH:mm:ss.SSS"));
-        new DefaultLogbackConfiguration().apply(configurator);
+
+        new DefaultLogbackConfiguration().apply(new LogbackConfigurator(loggerContext));
+
         loggerContext.setPackagingDataEnabled(true);
     }
 

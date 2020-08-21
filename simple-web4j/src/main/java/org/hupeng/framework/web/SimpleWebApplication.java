@@ -7,9 +7,7 @@ import org.hupeng.framework.context.ConfigurableApplicationContext;
 import org.hupeng.framework.context.DefaultApplicationContext;
 import org.hupeng.framework.web.server.Server;
 
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @author : hupeng
@@ -21,7 +19,7 @@ public class SimpleWebApplication {
 
     private Class<?> primarySources;
 
-    private List<ApplicationContextInitializer<?>> initializers;
+    private List<ApplicationContextInitializer<?>> initializers = new ArrayList<>();
 
     public static ConfigurableApplicationContext run(Class<?> primarySource, String... args) {
         return new SimpleWebApplication(primarySource).run(args);
@@ -42,18 +40,28 @@ public class SimpleWebApplication {
 
         new WebApplicationLoader().onStartup(applicationContext);
 
-        start();
+        startServer();
 
         return applicationContext;
     }
 
 
-    private static void start(){
+    private static void startServer(){
         String portString = EnvironmentConfig.Server.getPort();
         if(portString != null && StringUtil.isInt(portString)){
             port = Integer.valueOf(portString);
         }
         new Server(port).start();
+    }
+
+    public void setInitializers(
+            Collection<? extends ApplicationContextInitializer<?>> initializers) {
+        this.initializers = new ArrayList<>();
+        this.initializers.addAll(initializers);
+    }
+
+    public void addInitializers(ApplicationContextInitializer<?>... initializers) {
+        this.initializers.addAll(Arrays.asList(initializers));
     }
 
     public Set<ApplicationContextInitializer<?>> getInitializers() {

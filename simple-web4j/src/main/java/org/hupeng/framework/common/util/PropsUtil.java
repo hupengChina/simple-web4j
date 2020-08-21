@@ -1,7 +1,11 @@
 package org.hupeng.framework.common.util;
 
+import com.sun.istack.internal.Nullable;
+import org.omg.CORBA.OBJ_ADAPTER;
+
 import java.io.IOException;
 import java.io.InputStream;
+import java.math.BigDecimal;
 import java.util.Properties;
 
 /**
@@ -31,40 +35,57 @@ public class PropsUtil {
         return props;
     }
 
-    public static String getString(Properties props, String key) {
+    @Nullable
+    public static String get(Properties props, String key) {
         return props.getProperty(key);
     }
 
-    public static String getString(Properties props, String key, String defaultValue) {
+    @Nullable
+    public static String get(Properties props, String key, String defaultValue) {
         return props.getProperty(key,defaultValue);
     }
 
-    public static Boolean getBoolean(Properties props, String key, Boolean defaultValue) {
-        String value = props.getProperty(key);
-        if (value != null) {
-            if("true".equals(value)){
-                return true;
-            }
-            if("false".equals(value)){
-                return false;
-            }
-        }
-        return null;
+    @Nullable
+    public static <T> T get(Properties props, String key, Class<T> returnType) {
+        return get(props,key,returnType, null);
     }
 
-    public static Integer getInteger(Properties props, String key, Integer defaultValue) {
-        String value = props.getProperty(key);
-        if (value != null) {
-            return Integer.valueOf(value);
+    @Nullable
+    public static <T> T get(Properties props, String key, Class<T> returnType, T defaultValue){
+        T value =  (T) getObject(props, key, returnType);
+        if(value == null){
+            return defaultValue;
         }
-        return defaultValue;
+        return value;
     }
 
-    public static Long getLong(Properties props, String key, Long defaultValue) {
+    @Nullable
+    public static Object getObject(Properties props, String key, Class returnType) {
         String value = props.getProperty(key);
-        if (value != null) {
-            return Long.valueOf(value);
+        if(value == null){
+            return null;
         }
-        return defaultValue;
+        if(returnType.isAssignableFrom(Boolean.TYPE)){
+            return Boolean.valueOf(value);
+        }
+        if(returnType.isAssignableFrom(Integer.TYPE)){
+            return Boolean.valueOf(value);
+        }
+        if(returnType.isAssignableFrom(Long.TYPE)){
+            return Boolean.valueOf(value);
+        }
+        if(returnType.isAssignableFrom(Float.TYPE)){
+            return Float.valueOf(value);
+        }
+        if(returnType.isAssignableFrom(Double.TYPE)){
+            return Double.valueOf(value);
+        }
+        if(returnType.isAssignableFrom(BigDecimal.class)){
+            return new BigDecimal(value);
+        }
+        if(returnType.isAssignableFrom(String.class)){
+            return value;
+        }
+        throw new IllegalArgumentException("不支持解析类型："+returnType.getName());
     }
 }
