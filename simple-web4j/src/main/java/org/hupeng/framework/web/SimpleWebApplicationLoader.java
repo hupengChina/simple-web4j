@@ -1,6 +1,6 @@
 package org.hupeng.framework.web;
 
-import org.hupeng.framework.context.DefaultApplicationContext;
+import org.hupeng.framework.context.AnnotationConfigApplicationContext;
 import org.hupeng.framework.context.bean.BeanDefinition;
 import org.hupeng.framework.context.bean.DefaultBeanDefinition;
 import org.hupeng.framework.web.config.WebApplicationInitializer;
@@ -16,24 +16,29 @@ import java.util.Map;
  * @author : hupeng
  * @date : 2020/8/7
  */
-public class WebApplicationLoader implements WebApplicationInitializer {
+public class SimpleWebApplicationLoader {
 
 
-    @Override
-    public void onStartup(DefaultApplicationContext context) {
+    private final AnnotationConfigApplicationContext context;
 
-        initializer(context);
+    SimpleWebApplicationLoader(AnnotationConfigApplicationContext context){
+        this.context = context;
+    }
 
-        configureResourceHandler(context);
-        configureRequestMappingHandler(context);
+    public void load() {
+
+        initializer();
+
+        configureResourceHandler();
+        configureRequestMappingHandler();
 
         configureHandlerMapping(context.getBeansOfType(HandlerRegistry.class));
         configureHandlerAdapter(context.getBeansOfType(HandlerAdapter.class));
 
-        initializerStartup(context);
+        initializerStartup();
     }
 
-    protected void initializer(DefaultApplicationContext context){
+    protected void initializer(){
         BeanDefinition resourceHandlerRegistryBD = new DefaultBeanDefinition<>(ResourceHandlerRegistry.class);
         BeanDefinition requestMappingHandlerRegistryBD = new DefaultBeanDefinition<>(RequestMappingHandlerRegistry.class);
         context.registerBeanDefinition(resourceHandlerRegistryBD.getName(),resourceHandlerRegistryBD);
@@ -52,14 +57,14 @@ public class WebApplicationLoader implements WebApplicationInitializer {
     }
 
 
-    protected void configureRequestMappingHandler(DefaultApplicationContext context) {
+    protected void configureRequestMappingHandler() {
         final RequestMappingHandlerRegistry registry = context.getBean(RequestMappingHandlerRegistry.class);
         if (registry != null) {
 
         }
     }
 
-    protected void configureResourceHandler(DefaultApplicationContext context) {
+    protected void configureResourceHandler() {
         final ResourceHandlerRegistry registry = context.getBean(ResourceHandlerRegistry.class);
         if (registry != null) {
             Map<String,WebConfigurer> webConfigurers = context.getBeansOfType(WebConfigurer.class);
@@ -84,7 +89,7 @@ public class WebApplicationLoader implements WebApplicationInitializer {
         });
     }
 
-    public void initializerStartup(DefaultApplicationContext context){
+    public void initializerStartup(){
         final Map<String,WebApplicationInitializer> initializers = context.getBeansOfType(WebApplicationInitializer.class);
         if(initializers != null){
             initializers.forEach((name,initializer)->{

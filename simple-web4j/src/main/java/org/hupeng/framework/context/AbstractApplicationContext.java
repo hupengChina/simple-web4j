@@ -20,6 +20,17 @@ public abstract class AbstractApplicationContext implements ConfigurableApplicat
         DefaultBeanFactory beanFactory = obtainFreshBeanFactory();
 
         prepareBeanFactory(beanFactory);
+
+        onRefresh();
+
+        finishRefresh();
+    }
+
+    protected void onRefresh() {}
+
+
+    protected void finishRefresh() {
+        // TODO
     }
 
     protected DefaultBeanFactory obtainFreshBeanFactory() {
