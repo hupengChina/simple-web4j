@@ -1,13 +1,11 @@
-package org.hupeng.framework.web.server;
+package org.hupeng.framework.web.server.netty;
 
-import io.netty.buffer.Unpooled;
-import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.handler.codec.http.*;
 import org.hupeng.framework.web.Dispatcher;
-import org.hupeng.framework.web.server.http.WebRequest;
-import org.hupeng.framework.web.server.http.WebResponse;
+import org.hupeng.framework.web.server.netty.http.WebNettyRequest;
+import org.hupeng.framework.web.server.netty.http.WebNettyResponse;
 
 /**
  * @author : hupeng
@@ -17,9 +15,9 @@ public class ServerHandler extends SimpleChannelInboundHandler<FullHttpRequest> 
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, FullHttpRequest request){
-        WebRequest webRequest = new WebRequest()
+        WebNettyRequest webRequest = new WebNettyRequest()
                 .setFullHttpRequest(request);
-        WebResponse webResponse = new WebResponse()
+        WebNettyResponse webResponse = new WebNettyResponse()
                 .setCtx(ctx)
                 .setKeepAlive(HttpUtil.isKeepAlive(request));
         Dispatcher.doService(webRequest,webResponse);

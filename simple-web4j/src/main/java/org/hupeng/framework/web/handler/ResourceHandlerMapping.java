@@ -3,6 +3,7 @@ package org.hupeng.framework.web.handler;
 import com.sun.istack.internal.Nullable;
 import org.hupeng.framework.common.util.AntPathMatcher;
 import org.hupeng.framework.web.server.http.WebRequest;
+import org.hupeng.framework.web.server.netty.http.WebNettyRequest;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -22,7 +23,7 @@ public class ResourceHandlerMapping extends AbstractHandlerMapping {
     @Nullable
     @Override
     public Object getHandlerInternal(WebRequest webRequest) {
-        String uri = webRequest.getFullHttpRequest().uri();
+        String uri = webRequest.uri();
         for (Map.Entry<String, HttpRequestHandler> entry : urlMap.entrySet()) {
             String url = entry.getKey();
             HttpRequestHandler resourceHandler = entry.getValue();

@@ -7,6 +7,8 @@ import org.hupeng.framework.common.util.ReflectionUtil;
 import org.hupeng.framework.web.render.ResponseJsonRenderer;
 import org.hupeng.framework.web.server.http.WebRequest;
 import org.hupeng.framework.web.server.http.WebResponse;
+import org.hupeng.framework.web.server.netty.http.WebNettyRequest;
+import org.hupeng.framework.web.server.netty.http.WebNettyResponse;
 
 import java.lang.reflect.Method;
 
@@ -24,8 +26,8 @@ public class RequestMappingHandlerAdapter extends ApplicationObjectSupport imple
     @Override
     public HandleResult handle(WebRequest webRequest, WebResponse webResponse, Object handler) {
         HandlerMethod handlerMethod = (HandlerMethod)handler;
-        HttpMethod method = webRequest.getFullHttpRequest().method();
-        String content = webRequest.getFullHttpRequest().content().toString(CharsetUtil.UTF_8);
+        String method = webRequest.method();
+
         handlerMethod.handleRequest(webRequest,webResponse);
         Class controllerClass = handlerMethod.getBeanType();
         Method actionMethod = handlerMethod.getMethod();

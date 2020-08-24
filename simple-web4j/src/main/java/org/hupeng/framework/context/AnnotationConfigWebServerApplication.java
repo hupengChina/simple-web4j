@@ -1,6 +1,6 @@
 package org.hupeng.framework.context;
 
-import org.hupeng.framework.web.server.NettyWebServer;
+import org.hupeng.framework.web.server.netty.WebNettyServer;
 import org.hupeng.framework.web.server.WebServer;
 
 public class AnnotationConfigWebServerApplication extends AnnotationConfigApplicationContext {
@@ -22,7 +22,8 @@ public class AnnotationConfigWebServerApplication extends AnnotationConfigApplic
     private void createWebServer() {
         WebServer webServer = this.webServer;
         if (webServer == null) {
-            this.webServer = new NettyWebServer();
+            //todo 暂时只做netty实现，不排除其他实现
+            this.webServer = new WebNettyServer();
         }
     }
 

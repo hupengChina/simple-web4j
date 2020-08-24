@@ -6,6 +6,8 @@ public interface ConfigurableApplicationContext extends ApplicationContext {
 
     void refresh();
 
+    void addApplicationListener(ApplicationListener<?> listener);
+
     DefaultBeanFactory getBeanFactory();
 
 }

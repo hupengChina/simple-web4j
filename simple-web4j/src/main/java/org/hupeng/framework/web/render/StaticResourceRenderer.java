@@ -5,6 +5,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.hupeng.framework.web.handler.HandleResult;
 import org.hupeng.framework.web.server.http.WebRequest;
 import org.hupeng.framework.web.server.http.WebResponse;
+import org.hupeng.framework.web.server.netty.http.WebNettyRequest;
+import org.hupeng.framework.web.server.netty.http.WebNettyResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -12,10 +14,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
-import java.nio.file.FileSystems;
-import java.nio.file.Files;
-import java.nio.file.LinkOption;
-import java.nio.file.Path;
 import java.util.List;
 
 /**
@@ -30,7 +28,7 @@ public class StaticResourceRenderer implements Renderer {
     public void render(WebRequest request, WebResponse response, HandleResult handleResult) {
         String uri = null;
         try {
-            uri = URLDecoder.decode(request.getFullHttpRequest().uri(),"utf-8");
+            uri = URLDecoder.decode(request.uri(),"utf-8");
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }

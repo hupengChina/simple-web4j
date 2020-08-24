@@ -2,6 +2,7 @@ package org.hupeng.framework.context.support;
 
 import com.sun.istack.internal.Nullable;
 import org.hupeng.framework.context.AbstractApplicationContext;
+import org.hupeng.framework.context.ConfigurableApplicationContext;
 
 /**
  * @author : hupeng
@@ -10,10 +11,10 @@ import org.hupeng.framework.context.AbstractApplicationContext;
 public class ApplicationObjectSupport implements ApplicationContextAware {
 
     @Nullable
-    private AbstractApplicationContext applicationContext;
+    private ConfigurableApplicationContext applicationContext;
 
     @Override
-    public void setApplicationContext(AbstractApplicationContext applicationContext) {
+    public void setApplicationContext(ConfigurableApplicationContext applicationContext) {
         this.applicationContext = applicationContext;
     }
 
@@ -25,12 +26,12 @@ public class ApplicationObjectSupport implements ApplicationContextAware {
     }
 
     @Nullable
-    public final AbstractApplicationContext getApplicationContext() {
+    public final ConfigurableApplicationContext getApplicationContext() {
         return this.applicationContext;
     }
 
-    protected final AbstractApplicationContext obtainApplicationContext() {
-        AbstractApplicationContext applicationContext = getApplicationContext();
+    protected final ConfigurableApplicationContext obtainApplicationContext() {
+        ConfigurableApplicationContext applicationContext = getApplicationContext();
         return applicationContext;
     }
 }

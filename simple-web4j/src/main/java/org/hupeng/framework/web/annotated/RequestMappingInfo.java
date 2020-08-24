@@ -3,6 +3,7 @@ package org.hupeng.framework.web.annotated;
 import com.sun.istack.internal.Nullable;
 import io.netty.handler.codec.http.HttpMethod;
 import org.hupeng.framework.web.server.http.WebRequest;
+import org.hupeng.framework.web.server.netty.http.WebNettyRequest;
 
 /**
  * @author : hupeng
@@ -35,8 +36,8 @@ public class RequestMappingInfo {
     @Nullable
     public boolean matchingCondition(WebRequest request) {//todo
 
-        String uri = request.getFullHttpRequest().uri();
-        HttpMethod method = request.getFullHttpRequest().method();
+        String uri = request.uri();
+        String method = request.method();
 
         return this.value.equals(uri);
     }

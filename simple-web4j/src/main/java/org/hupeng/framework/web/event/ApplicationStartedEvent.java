@@ -5,13 +5,13 @@ import org.hupeng.framework.web.SimpleWebApplication;
 
 /**
  * @author : hupeng
- * @date : 2020/8/21
+ * @date : 2020/8/24
  */
-public class ApplicationPreparedEvent extends SimpleWebApplicationEvent {
+public class ApplicationStartedEvent extends SimpleWebApplicationEvent {
 
     private final ConfigurableApplicationContext context;
 
-    public ApplicationPreparedEvent(SimpleWebApplication application, String[] args, ConfigurableApplicationContext context) {
+    public ApplicationStartedEvent(SimpleWebApplication application, String[] args, ConfigurableApplicationContext context) {
         super(application, args);
         this.context = context;
     }

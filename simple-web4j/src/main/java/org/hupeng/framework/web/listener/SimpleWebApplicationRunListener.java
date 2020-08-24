@@ -1,4 +1,4 @@
-package org.hupeng.framework.web;
+package org.hupeng.framework.web.listener;
 
 import org.hupeng.framework.context.ConfigurableApplicationContext;
 

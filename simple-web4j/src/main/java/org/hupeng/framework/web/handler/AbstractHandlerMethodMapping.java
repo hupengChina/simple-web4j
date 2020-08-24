@@ -62,7 +62,7 @@ public abstract class AbstractHandlerMethodMapping<T> extends AbstractHandlerMap
 
     @Override
     protected Object getHandlerInternal(WebRequest request) {
-        String lookupPath = request.getFullHttpRequest().uri();
+        String lookupPath = request.uri();
         this.mappingRegistry.acquireReadLock();
         try {
             HandlerMethod handlerMethod = lookupHandlerMethod(lookupPath, request);

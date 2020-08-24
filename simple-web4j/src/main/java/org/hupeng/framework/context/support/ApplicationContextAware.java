@@ -1,6 +1,7 @@
 package org.hupeng.framework.context.support;
 
 import org.hupeng.framework.context.AbstractApplicationContext;
+import org.hupeng.framework.context.ConfigurableApplicationContext;
 
 /**
  * @author : hupeng
@@ -8,6 +9,6 @@ import org.hupeng.framework.context.AbstractApplicationContext;
  */
 public interface ApplicationContextAware extends Aware {
 
-    void setApplicationContext(AbstractApplicationContext applicationContext);
+    void setApplicationContext(ConfigurableApplicationContext applicationContext);
 
 }

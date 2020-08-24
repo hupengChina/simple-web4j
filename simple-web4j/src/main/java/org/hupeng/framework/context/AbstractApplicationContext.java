@@ -1,12 +1,16 @@
 package org.hupeng.framework.context;
 
+import com.sun.istack.internal.Nullable;
+import org.hupeng.framework.context.event.ApplicationEvent;
 import org.hupeng.framework.context.factory.AutowireCapableBeanFactory;
 import org.hupeng.framework.context.factory.BeanFactory;
 import org.hupeng.framework.context.factory.DefaultBeanFactory;
 import org.hupeng.framework.context.factory.support.ApplicationContextAwareProcessor;
 
 import java.lang.annotation.Annotation;
+import java.util.LinkedHashSet;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * @author : hupeng
@@ -14,6 +18,12 @@ import java.util.Map;
  */
 public abstract class AbstractApplicationContext implements ConfigurableApplicationContext {
 
+    private final Set<ApplicationListener<?>> applicationListeners = new LinkedHashSet<>();
+
+    @Override
+    public void addApplicationListener(ApplicationListener<?> listener) {
+        this.applicationListeners.add(listener);
+    }
 
     @Override
     public void refresh(){
@@ -31,6 +41,20 @@ public abstract class AbstractApplicationContext implements ConfigurableApplicat
 
     protected void finishRefresh() {
         // TODO
+    }
+
+    @Override
+    public void publishEvent(ApplicationEvent event) {
+        publishEvent(event, null);
+    }
+
+    @Override
+    public void publishEvent(Object event) {
+        publishEvent(event, null);
+    }
+
+    protected void publishEvent(Object event, @Nullable Class eventType) {
+        //todo
     }
 
     protected DefaultBeanFactory obtainFreshBeanFactory() {

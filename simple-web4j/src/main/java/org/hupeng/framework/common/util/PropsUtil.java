@@ -1,6 +1,7 @@
 package org.hupeng.framework.common.util;
 
 import com.sun.istack.internal.Nullable;
+import org.apache.commons.lang3.StringUtils;
 import org.omg.CORBA.OBJ_ADAPTER;
 
 import java.io.IOException;
@@ -42,7 +43,11 @@ public class PropsUtil {
 
     @Nullable
     public static String get(Properties props, String key, String defaultValue) {
-        return props.getProperty(key,defaultValue);
+        String value = props.getProperty(key);
+        if(StringUtils.isBlank(value)){
+            return defaultValue;
+        }
+        return value;
     }
 
     @Nullable
@@ -62,7 +67,7 @@ public class PropsUtil {
     @Nullable
     public static Object getObject(Properties props, String key, Class returnType) {
         String value = props.getProperty(key);
-        if(value == null){
+        if(StringUtils.isBlank(value)){
             return null;
         }
         if(returnType.isAssignableFrom(Boolean.TYPE)){
