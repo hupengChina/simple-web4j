@@ -11,8 +11,7 @@ public class ApplicationReadyEvent extends SimpleWebApplicationEvent {
 
     private final ConfigurableApplicationContext context;
 
-    public ApplicationReadyEvent(SimpleWebApplication application, String[] args,
-                                 ConfigurableApplicationContext context) {
+    public ApplicationReadyEvent(SimpleWebApplication application, String[] args, ConfigurableApplicationContext context) {
         super(application, args);
         this.context = context;
     }

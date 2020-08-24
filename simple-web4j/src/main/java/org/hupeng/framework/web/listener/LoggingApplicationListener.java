@@ -52,7 +52,7 @@ public class LoggingApplicationListener implements GenericApplicationListener {
             onApplicationPreparedEvent((ApplicationPreparedEvent) event);
             return;
         }
-        else if (event instanceof ContextClosedEvent) {
+        if (event instanceof ContextClosedEvent) {
             onContextClosedEvent();
         }
         if (event instanceof ApplicationFailedEvent) {
@@ -68,8 +68,7 @@ public class LoggingApplicationListener implements GenericApplicationListener {
 
     private void onApplicationPreparedEvent(ApplicationPreparedEvent event) {
         this.loggingSystem.initialize();
-        DefaultBeanFactory beanFactory = event.getApplicationContext()
-                .getBeanFactory();
+        DefaultBeanFactory beanFactory = event.getApplicationContext().getBeanFactory();
         if (!beanFactory.containsBean(LOGGING_SYSTEM_BEAN_NAME)) {
             beanFactory.registerSingleton(LOGGING_SYSTEM_BEAN_NAME, this.loggingSystem);
         }
