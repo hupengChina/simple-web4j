@@ -19,10 +19,9 @@ import org.hupeng.framework.common.EnvironmentConfig;
  */
 public class DefaultLogbackConfiguration {
 
-    private static final String CONSOLE_LOG_PATTERN = "%clr(%d{${LOG_DATEFORMAT_PATTERN:-yyyy-MM-dd HH:mm:ss.SSS}}){faint} "
-            + "%clr(${LOG_LEVEL_PATTERN:-%5p}) %clr(${PID:- }){magenta} %clr(---){faint} "
-            + "%clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} "
-            + "%clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}";
+    private static final String CONSOLE_LOG_PATTERN = "%d{${LOG_DATEFORMAT_PATTERN:-yyyy-MM-dd HH:mm:ss.SSS}} "
+            + "%clr([${LOG_LEVEL_PATTERN:-%5p}]) ${PID:- } --- [%15.15t] %clr(%-40.40logger{39}){cyan} "
+            + ": %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}";
 
     private static final String FILE_LOG_PATTERN = "%d{${LOG_DATEFORMAT_PATTERN:-yyyy-MM-dd HH:mm:ss.SSS}} "
             + "${LOG_LEVEL_PATTERN:-%5p} ${PID:- } --- [%t] %-40.40logger{39} : %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}";

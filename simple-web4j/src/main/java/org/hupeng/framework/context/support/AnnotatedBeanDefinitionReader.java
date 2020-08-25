@@ -8,6 +8,7 @@ import org.hupeng.framework.context.factory.BeanDefinitionRegistry;
  */
 public class AnnotatedBeanDefinitionReader {
 
+
     private final BeanDefinitionRegistry registry;
 
     public AnnotatedBeanDefinitionReader(BeanDefinitionRegistry registry) {

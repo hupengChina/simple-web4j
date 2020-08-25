@@ -1,9 +1,7 @@
 package org.hupeng.framework.web;
 
-import org.hupeng.framework.context.AnnotationConfigWebServerApplication;
-import org.hupeng.framework.context.ApplicationContextInitializer;
-import org.hupeng.framework.context.ApplicationListener;
-import org.hupeng.framework.context.ConfigurableApplicationContext;
+import org.hupeng.framework.context.*;
+import org.hupeng.framework.context.factory.BeanDefinitionRegistry;
 import org.hupeng.framework.web.listener.EventPublishingRunListener;
 import org.hupeng.framework.web.listener.LoggingApplicationListener;
 import org.hupeng.framework.web.listener.SimpleWebApplicationRunListener;
@@ -21,7 +19,7 @@ public class SimpleWebApplication {
 
     private static final Logger log = LoggerFactory.getLogger(SimpleWebApplication.class);
 
-    private Class<?> primarySources;
+    private Class<?> primarySource;
 
     private List<ApplicationListener<?>> listeners;
 
@@ -31,8 +29,8 @@ public class SimpleWebApplication {
         return new SimpleWebApplication(primarySource).run(args);
     }
 
-    public SimpleWebApplication(Class<?> primarySources) {
-        this.primarySources = primarySources;
+    public SimpleWebApplication(Class<?> primarySource) {
+        this.primarySource = primarySource;
         initInitializers();
         initListeners();
     }
@@ -54,16 +52,13 @@ public class SimpleWebApplication {
 
             prepareContext(context, listeners);
 
-            context.scan(primarySources.getPackage().getName());
+            refreshContext(context);
 
-            context.refresh();
-
-            new SimpleWebApplicationLoader(context).load();
-
-            applyInitializers(context);
+            new DispatcherInitializer(context).initStrategies();
 
             listeners.started(context);
-        } catch (Throwable ex) {
+        }
+        catch (Throwable ex) {
             handleRunFailure(context, listeners, ex);
             throw new IllegalStateException(ex);
         }
@@ -91,13 +86,29 @@ public class SimpleWebApplication {
     }
 
     private void prepareContext(ConfigurableApplicationContext context, SimpleWebApplicationRunListeners listeners) {
-        //todo
+        applyInitializers(context);
         listeners.contextPrepared(context);
-
+        //载入指定Package下的bean
+        load(context, primarySource.getPackage());
         listeners.contextLoaded(context);
     }
 
 
+    protected void load(ConfigurableApplicationContext context,Object... sources) {
+        BeanDefinitionLoader loader = new BeanDefinitionLoader((BeanDefinitionRegistry) context,sources);
+        loader.load();
+    }
+
+    private void refreshContext(ConfigurableApplicationContext context) {
+        context.refresh();
+    }
+
+    /**
+     * 失败处理
+     * @param context
+     * @param listeners
+     * @param exception
+     */
     private void handleRunFailure(ConfigurableApplicationContext context,SimpleWebApplicationRunListeners listeners,Throwable exception) {
         //todo
         listeners.failed(context, exception);

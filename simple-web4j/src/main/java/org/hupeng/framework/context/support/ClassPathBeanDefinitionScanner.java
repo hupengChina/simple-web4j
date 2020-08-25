@@ -1,11 +1,11 @@
 package org.hupeng.framework.context.support;
 
 import org.apache.commons.lang3.StringUtils;
+import org.hupeng.framework.common.util.ClassUtil;
 import org.hupeng.framework.context.Annotated.*;
 import org.hupeng.framework.context.bean.BeanDefinition;
 import org.hupeng.framework.context.bean.DefaultBeanDefinition;
 import org.hupeng.framework.context.factory.BeanDefinitionRegistry;
-import org.hupeng.framework.common.util.ClassUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -33,14 +33,18 @@ public class ClassPathBeanDefinitionScanner {
         this.registry = registry;
     }
 
-    public void scan(String... basePackages) {
+
+    public int scan(String... basePackages) {
+        int count = 0;
         for (String packageName: basePackages) {
             Collection<Class<?>> classes = doScan(packageName);
             for (Class beanClass: classes) {
                 BeanDefinition bd = new DefaultBeanDefinition(beanClass);
                 registry.registerBeanDefinition(bd.getName(),bd);
             }
+            count +=classes.size();
         }
+        return count;
     }
 
     public Collection<Class<?>> doScan(String packageName){

@@ -1,8 +1,10 @@
 package org.hupeng.framework.context.factory;
 
+import com.sun.istack.internal.NotNull;
 import org.hupeng.framework.context.bean.BeanDefinition;
 
 import java.lang.annotation.Annotation;
+import java.sql.Array;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -54,9 +56,10 @@ public class DefaultBeanFactory extends AbstractAutowireCapableBeanFactory imple
 
     @Override
     public String[] getBeanNamesForType(Class<?> type) {
-        return new String[0];
+        return (String[]) getBeansOfType(type).keySet().toArray();
     }
 
+    @NotNull
     @Override
     public <T> Map<String, T> getBeansOfType(Class<T> type) {
         Map<String, T> beans = new LinkedHashMap<>();
@@ -95,16 +98,19 @@ public class DefaultBeanFactory extends AbstractAutowireCapableBeanFactory imple
 
     @Override
     public String[] getBeanNamesForAnnotation(Class<? extends Annotation> annotationType) {
+        //todo
         return new String[0];
     }
 
     @Override
     public Map<String, Object> getBeansWithAnnotation(Class<? extends Annotation> annotationType) {
+        //todo
         return null;
     }
 
     @Override
     public <A extends Annotation> A findAnnotationOnBean(String beanName, Class<A> annotationType) {
+        //todo
         return null;
     }
 

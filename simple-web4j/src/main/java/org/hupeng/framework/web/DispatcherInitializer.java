@@ -3,7 +3,6 @@ package org.hupeng.framework.web;
 import org.hupeng.framework.context.AnnotationConfigApplicationContext;
 import org.hupeng.framework.context.bean.BeanDefinition;
 import org.hupeng.framework.context.bean.DefaultBeanDefinition;
-import org.hupeng.framework.web.config.WebApplicationInitializer;
 import org.hupeng.framework.web.config.WebConfigurer;
 import org.hupeng.framework.web.handler.*;
 import org.hupeng.framework.web.registry.HandlerRegistry;
@@ -16,16 +15,16 @@ import java.util.Map;
  * @author : hupeng
  * @date : 2020/8/7
  */
-public class SimpleWebApplicationLoader {
+public class DispatcherInitializer {
 
 
     private final AnnotationConfigApplicationContext context;
 
-    SimpleWebApplicationLoader(AnnotationConfigApplicationContext context){
+    DispatcherInitializer(AnnotationConfigApplicationContext context){
         this.context = context;
     }
 
-    public void load() {
+    public void initStrategies() {
 
         initializer();
 
@@ -34,8 +33,6 @@ public class SimpleWebApplicationLoader {
 
         configureHandlerMapping(context.getBeansOfType(HandlerRegistry.class));
         configureHandlerAdapter(context.getBeansOfType(HandlerAdapter.class));
-
-        initializerStartup();
     }
 
     protected void initializer(){
@@ -87,15 +84,6 @@ public class SimpleWebApplicationLoader {
                 Dispatcher.addHandlerMapping(handlerMapping);
             }
         });
-    }
-
-    public void initializerStartup(){
-        final Map<String,WebApplicationInitializer> initializers = context.getBeansOfType(WebApplicationInitializer.class);
-        if(initializers != null){
-            initializers.forEach((name,initializer)->{
-                initializer.onStartup(context);
-            });
-        }
     }
 
 }

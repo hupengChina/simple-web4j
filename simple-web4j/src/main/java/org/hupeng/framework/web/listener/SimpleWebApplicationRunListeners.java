@@ -28,7 +28,6 @@ public class SimpleWebApplicationRunListeners {
         }
     }
 
-
     public void contextPrepared(ConfigurableApplicationContext context) {
         for (SimpleWebApplicationRunListener listener : this.listeners) {
             listener.contextPrepared(context);
@@ -59,8 +58,7 @@ public class SimpleWebApplicationRunListeners {
         }
     }
 
-    private void callFailedListener(SimpleWebApplicationRunListener listener,
-                                    ConfigurableApplicationContext context, Throwable exception) {
+    private void callFailedListener(SimpleWebApplicationRunListener listener, ConfigurableApplicationContext context, Throwable exception) {
         try {
             listener.failed(context, exception);
         }
