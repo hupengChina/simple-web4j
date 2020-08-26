@@ -54,8 +54,6 @@ public class SimpleWebApplication {
 
             refreshContext(context);
 
-            new DispatcherInitializer(context).initStrategies();
-
             listeners.started(context);
         }
         catch (Throwable ex) {

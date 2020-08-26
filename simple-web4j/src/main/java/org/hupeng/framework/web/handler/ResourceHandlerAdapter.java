@@ -18,10 +18,10 @@ public class ResourceHandlerAdapter implements HandlerAdapter{
 
     @Override
     public HandleResult handle(WebRequest request, WebResponse response, Object handler) {
+        HandleResult handleResult = new HandleResult();
         ResourceHandler resourceHandler = (ResourceHandler)handler;
         resourceHandler.handleRequest(request,response);
         resourceHandler.getLocationValues();
-        HandleResult handleResult = new HandleResult();
         handleResult.setResult(resourceHandler.getLocationValues());//todo handleResult 可扩展
         handleResult.setRenderer(new StaticResourceRenderer());
         return handleResult;

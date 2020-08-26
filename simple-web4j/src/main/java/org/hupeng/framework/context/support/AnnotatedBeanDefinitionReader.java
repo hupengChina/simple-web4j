@@ -15,13 +15,17 @@ public class AnnotatedBeanDefinitionReader {
         this.registry = registry;
     }
 
-    public void register(Class<?>... componentClasses) {
+    public int register(Class<?>... componentClasses) {
+        int count = 0;
         for (Class<?> componentClass : componentClasses) {
-            registerBean(componentClass);
+            count += registerBean(componentClass);
         }
+        return count;
     }
 
-    public void registerBean(Class<?> beanClass) {
+    public int registerBean(Class<?> beanClass) {
         //todo
+
+        return 0;
     }
 }

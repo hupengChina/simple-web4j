@@ -19,9 +19,11 @@ public class DefaultBeanDefinition<T> implements BeanDefinition {
 
     private Collection<PropertyValue> propertyValues = new HashSet<>();
 
+    // TODO 自定义初始化方法
     @Nullable
     private String initMethodName;
 
+    // 标识前后置处理器
     private boolean synthetic = false;
 
     public void setSynthetic(boolean synthetic) {

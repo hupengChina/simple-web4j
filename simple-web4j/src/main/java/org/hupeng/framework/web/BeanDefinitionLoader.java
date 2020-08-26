@@ -31,15 +31,21 @@ public class BeanDefinitionLoader {
     }
 
     private int load(Object source) {
-        //todo 目前只加载Package下的bean，后续扩展
-        if(source instanceof Package){
+        //todo 后续扩展其他类型
+        if(source instanceof Package) {
             return load((Package)source);
         }
-
+        if(source instanceof Class) {
+            return load((Class)source);
+        }
         throw new IllegalArgumentException("不支持当前类加载Bean" + source.getClass());
     }
 
     private int load(Package source) {
          return this.scanner.scan(source.getName());
+    }
+
+    private int load(Class source) {
+        return this.annotatedReader.register(source);
     }
 }

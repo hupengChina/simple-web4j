@@ -25,6 +25,8 @@ public class RequestMappingHandlerAdapter extends ApplicationObjectSupport imple
 
     @Override
     public HandleResult handle(WebRequest webRequest, WebResponse webResponse, Object handler) {
+        HandleResult handleResult = new HandleResult();
+
         HandlerMethod handlerMethod = (HandlerMethod)handler;
         String method = webRequest.method();
 
@@ -35,7 +37,6 @@ public class RequestMappingHandlerAdapter extends ApplicationObjectSupport imple
         Object controller = obtainApplicationContext().getBean(controllerClass);
 
         Object result = ReflectionUtil.invokeMethod(controller, actionMethod);
-        HandleResult handleResult = new HandleResult();
         handleResult.setResult(result);
         handleResult.setRenderer(new ResponseJsonRenderer());
         return handleResult;

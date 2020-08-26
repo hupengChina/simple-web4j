@@ -54,7 +54,7 @@ public abstract class AbstractApplicationContext implements ConfigurableApplicat
     }
 
     protected void publishEvent(Object event, @Nullable Class eventType) {
-        //todo
+        //TODO
     }
 
     protected DefaultBeanFactory obtainFreshBeanFactory() {

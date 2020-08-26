@@ -12,6 +12,7 @@ import io.netty.handler.codec.http.HttpObjectAggregator;
 import io.netty.handler.codec.http.HttpServerCodec;
 import org.hupeng.framework.common.EnvironmentConfig;
 import org.hupeng.framework.common.util.StringUtil;
+import org.hupeng.framework.context.ConfigurableApplicationContext;
 import org.hupeng.framework.web.server.WebServer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,6 +30,18 @@ public class WebNettyServer implements WebServer {
     private final EventLoopGroup work = new NioEventLoopGroup();
 
     private volatile AtomicBoolean isStart = new AtomicBoolean(false);
+
+    private final DispatcherHandler dispatcherHandler;
+
+    public WebNettyServer(ConfigurableApplicationContext context){
+        dispatcherHandler = getDispatcherHandler(context);
+    }
+
+    private DispatcherHandler getDispatcherHandler(ConfigurableApplicationContext context){
+        DispatcherHandler dispatcherHandler = new DispatcherHandler();
+        dispatcherHandler.setApplicationContext(context);
+        return dispatcherHandler;
+    }
 
     private volatile int port = 80;
 
@@ -50,7 +63,7 @@ public class WebNettyServer implements WebServer {
                             final ChannelPipeline pipeline = ch.pipeline();
                             pipeline.addLast(new HttpServerCodec());
                             pipeline.addLast(new HttpObjectAggregator(32*1024*1024));
-                            pipeline.addLast(new ServerHandler());
+                            pipeline.addLast(new WebServerHandler(dispatcherHandler));
                         }
                     });
                     try {
