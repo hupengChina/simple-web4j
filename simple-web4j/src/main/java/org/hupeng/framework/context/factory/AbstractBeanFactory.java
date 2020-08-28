@@ -3,7 +3,7 @@ package org.hupeng.framework.context.factory;
 import com.sun.istack.internal.Nullable;
 import org.hupeng.framework.context.bean.BeanDefinition;
 import org.hupeng.framework.context.factory.config.BeanPostProcessor;
-import org.hupeng.framework.common.util.ClassUtil;
+import org.hupeng.framework.commons.util.ClassUtil;
 
 import java.util.Collections;
 import java.util.List;

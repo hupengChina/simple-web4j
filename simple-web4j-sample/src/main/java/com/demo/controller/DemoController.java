@@ -1,9 +1,9 @@
 package com.demo.controller;
 
 import com.demo.service.DemoService;
-import org.hupeng.framework.context.Annotated.Autowired;
-import org.hupeng.framework.context.Annotated.Controller;
-import org.hupeng.framework.web.annotated.RequestMapping;
+import org.hupeng.framework.context.annotation.Autowired;
+import org.hupeng.framework.context.annotation.Controller;
+import org.hupeng.framework.web.annotation.RequestMapping;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

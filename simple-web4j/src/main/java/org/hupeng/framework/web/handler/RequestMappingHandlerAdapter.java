@@ -1,14 +1,10 @@
 package org.hupeng.framework.web.handler;
 
-import io.netty.handler.codec.http.*;
-import io.netty.util.CharsetUtil;
 import org.hupeng.framework.context.support.ApplicationObjectSupport;
-import org.hupeng.framework.common.util.ReflectionUtil;
+import org.hupeng.framework.commons.util.ReflectionUtil;
 import org.hupeng.framework.web.render.ResponseJsonRenderer;
 import org.hupeng.framework.web.server.http.WebRequest;
 import org.hupeng.framework.web.server.http.WebResponse;
-import org.hupeng.framework.web.server.netty.http.WebNettyRequest;
-import org.hupeng.framework.web.server.netty.http.WebNettyResponse;
 
 import java.lang.reflect.Method;
 

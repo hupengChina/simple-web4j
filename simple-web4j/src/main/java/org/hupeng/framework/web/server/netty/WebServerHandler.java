@@ -15,13 +15,13 @@ import org.slf4j.LoggerFactory;
  */
 public class WebServerHandler extends SimpleChannelInboundHandler<FullHttpRequest> {
 
+    private static final Logger log = LoggerFactory.getLogger(WebServerHandler.class);
+
     private final DispatcherHandler dispatcherHandler;
 
-    public WebServerHandler(DispatcherHandler dispatcherHandler){
+    public WebServerHandler(final DispatcherHandler dispatcherHandler){
         this.dispatcherHandler = dispatcherHandler;
     }
-
-    private static final Logger log = LoggerFactory.getLogger(WebServerHandler.class);
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, FullHttpRequest request){

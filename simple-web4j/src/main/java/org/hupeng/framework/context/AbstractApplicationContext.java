@@ -1,6 +1,7 @@
 package org.hupeng.framework.context;
 
 import com.sun.istack.internal.Nullable;
+import org.apache.commons.lang3.ObjectUtils;
 import org.hupeng.framework.context.event.ApplicationEvent;
 import org.hupeng.framework.context.factory.AutowireCapableBeanFactory;
 import org.hupeng.framework.context.factory.BeanFactory;
@@ -18,11 +19,44 @@ import java.util.Set;
  */
 public abstract class AbstractApplicationContext implements ConfigurableApplicationContext {
 
+    private String id = ObjectUtils.identityToString(this);
+
+    @Nullable
+    private ApplicationContext parent;
+
+
     private final Set<ApplicationListener<?>> applicationListeners = new LinkedHashSet<>();
+
 
     @Override
     public void addApplicationListener(ApplicationListener<?> listener) {
         this.applicationListeners.add(listener);
+    }
+
+    @Override
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    @Override
+    public String getId() {
+        return this.id;
+    }
+
+    @Override
+    public String getApplicationName() {
+        return "";
+    }
+
+    @Override
+    public void setParent(@Nullable ApplicationContext parent) {
+        this.parent = parent;
+    }
+
+    @Override
+    @Nullable
+    public ApplicationContext getParent() {
+        return this.parent;
     }
 
     @Override

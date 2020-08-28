@@ -1,8 +1,8 @@
 package org.hupeng.framework.web.handler;
 
-import org.hupeng.framework.context.Annotated.Controller;
-import org.hupeng.framework.web.annotated.RequestMapping;
-import org.hupeng.framework.web.annotated.RequestMappingInfo;
+import org.hupeng.framework.context.annotation.Controller;
+import org.hupeng.framework.web.annotation.RequestMapping;
+import org.hupeng.framework.web.annotation.RequestMappingInfo;
 import org.hupeng.framework.web.server.http.WebRequest;
 
 import java.lang.reflect.Method;

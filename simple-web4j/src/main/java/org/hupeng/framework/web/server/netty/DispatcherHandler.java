@@ -82,6 +82,7 @@ public class DispatcherHandler implements ApplicationContextAware {
 
     @Override
     public void setApplicationContext(ConfigurableApplicationContext context) {
+        //todo 暂时直接使用传入的容器，后续可能引入父子容器
         initStrategies(context);
     }
 

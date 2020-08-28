@@ -1,7 +1,7 @@
 package org.hupeng.framework.web.listener;
 
-import org.hupeng.framework.common.logging.LogbackLoggingSystem;
-import org.hupeng.framework.common.logging.LoggingSystem;
+import org.hupeng.framework.commons.logging.LogbackLoggingSystem;
+import org.hupeng.framework.commons.logging.LoggingSystem;
 import org.hupeng.framework.context.GenericApplicationListener;
 import org.hupeng.framework.context.event.ApplicationEvent;
 import org.hupeng.framework.context.event.ContextClosedEvent;

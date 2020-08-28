@@ -1,6 +1,6 @@
 package com.demo.service;
 
-import org.hupeng.framework.context.Annotated.Service;
+import org.hupeng.framework.context.annotation.Service;
 
 import java.util.HashMap;
 

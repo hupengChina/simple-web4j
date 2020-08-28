@@ -1,7 +1,7 @@
 package org.hupeng.framework.context.factory;
 
 import com.sun.istack.internal.Nullable;
-import org.hupeng.framework.context.Annotated.Autowired;
+import org.hupeng.framework.context.annotation.Autowired;
 import org.hupeng.framework.context.support.Aware;
 import org.hupeng.framework.context.bean.*;
 import org.hupeng.framework.context.factory.config.BeanPostProcessor;

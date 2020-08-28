@@ -1,8 +1,8 @@
 package org.hupeng.framework.context.support;
 
 import org.apache.commons.lang3.StringUtils;
-import org.hupeng.framework.common.util.ClassUtil;
-import org.hupeng.framework.context.Annotated.*;
+import org.hupeng.framework.commons.util.ClassUtil;
+import org.hupeng.framework.context.annotation.*;
 import org.hupeng.framework.context.bean.BeanDefinition;
 import org.hupeng.framework.context.bean.DefaultBeanDefinition;
 import org.hupeng.framework.context.factory.BeanDefinitionRegistry;

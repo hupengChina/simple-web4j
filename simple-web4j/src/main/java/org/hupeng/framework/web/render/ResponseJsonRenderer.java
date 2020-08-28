@@ -1,11 +1,9 @@
 package org.hupeng.framework.web.render;
 
-import org.hupeng.framework.common.util.JsonUtil;
+import org.hupeng.framework.commons.util.JsonUtil;
 import org.hupeng.framework.web.handler.HandleResult;
 import org.hupeng.framework.web.server.http.WebRequest;
 import org.hupeng.framework.web.server.http.WebResponse;
-import org.hupeng.framework.web.server.netty.http.WebNettyRequest;
-import org.hupeng.framework.web.server.netty.http.WebNettyResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
