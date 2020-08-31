@@ -19,11 +19,17 @@ public class DefaultBeanDefinition<T> implements BeanDefinition {
 
     private Collection<PropertyValue> propertyValues = new HashSet<>();
 
+    /**
+     * 实例化前处理标记
+     */
+    @Nullable
+    volatile Boolean beforeInstantiationResolved = false;
+
     // TODO 自定义初始化方法
     @Nullable
     private String initMethodName;
 
-    // 标识前后置处理器
+    // 标识后置处理器
     private boolean synthetic = false;
 
     public void setSynthetic(boolean synthetic) {
@@ -70,6 +76,16 @@ public class DefaultBeanDefinition<T> implements BeanDefinition {
 
     public void setBeanClass(Class<T> beanClass) {
         this.beanClass = beanClass;
+    }
+
+    @Override
+    public Boolean getBeforeInstantiationResolved() {
+        return beforeInstantiationResolved;
+    }
+
+    @Override
+    public void setBeforeInstantiationResolved(Boolean beforeInstantiationResolved) {
+        this.beforeInstantiationResolved = beforeInstantiationResolved;
     }
 
     public DefaultBeanDefinition(final Class<T> beanClass){

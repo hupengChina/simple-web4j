@@ -11,12 +11,14 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class DefaultSingletonBeanRegistry implements SingletonBeanRegistry {
 
-    //单例集合beanName-object
+    //beanName-完全的object （一级缓存）
     private final Map<String, Object> singletonObjects = new ConcurrentHashMap<>();
 
-    private final Map<String, ObjectFactory<?>> singletonFactories = new HashMap<>();
-
+    //beanName-提前曝光的（未填充属性初始化）object（二级缓存）
     private final Map<String, Object> earlySingletonObjects = new HashMap<>();
+
+    //beanName-object工厂（三级缓存）
+    private final Map<String, ObjectFactory<?>> singletonFactories = new HashMap<>();
 
     private final Set<String> registeredSingletons = new LinkedHashSet<>();
 
@@ -37,12 +39,36 @@ public class DefaultSingletonBeanRegistry implements SingletonBeanRegistry {
     @Override
     @Nullable
     public Object getSingleton(String beanName) {
-        return singletonObjects.get(beanName);
+        Object singletonObject = this.singletonObjects.get(beanName);
+        if (singletonObject == null && isSingletonCurrentlyInCreation(beanName)) {
+            synchronized (this.singletonObjects) {
+                singletonObject = this.earlySingletonObjects.get(beanName);
+                if (singletonObject == null) {
+                    ObjectFactory<?> singletonFactory = this.singletonFactories.get(beanName);
+                    if (singletonFactory != null) {
+                        singletonObject = singletonFactory.getObject();
+                        this.earlySingletonObjects.put(beanName, singletonObject);
+                        this.singletonFactories.remove(beanName);
+                    }
+                }
+            }
+        }
+        return singletonObject;
     }
 
     @Override
     public boolean containsSingleton(String beanName) {
         return singletonObjects.containsKey(beanName);
+    }
+
+    protected void addSingletonFactory(String beanName, ObjectFactory<?> singletonFactory) {
+        synchronized (this.singletonObjects) {
+            if (!this.singletonObjects.containsKey(beanName)) {
+                this.singletonFactories.put(beanName, singletonFactory);
+                this.earlySingletonObjects.remove(beanName);
+                this.registeredSingletons.add(beanName);
+            }
+        }
     }
 
     public void registerDependentBean(String beanName, String dependentBeanName) {
@@ -132,6 +158,9 @@ public class DefaultSingletonBeanRegistry implements SingletonBeanRegistry {
     protected void addSingleton(String beanName, Object singletonObject) {
         synchronized (this.singletonObjects) {
             this.singletonObjects.put(beanName, singletonObject);
+            this.singletonFactories.remove(beanName);
+            this.earlySingletonObjects.remove(beanName);
+            this.registeredSingletons.add(beanName);
         }
     }
 

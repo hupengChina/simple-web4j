@@ -8,6 +8,10 @@ public interface BeanDefinition<T> {
 
     Class<?> getBeanClass();
 
+    Boolean getBeforeInstantiationResolved();
+
+    void setBeforeInstantiationResolved(Boolean beforeInstantiationResolved);
+
     Collection<PropertyValue> getPropertyValues();
 
     boolean isSynthetic();

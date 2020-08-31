@@ -2,6 +2,7 @@ package org.hupeng.framework.context.factory;
 
 import com.sun.istack.internal.Nullable;
 import org.hupeng.framework.context.annotation.Autowired;
+import org.hupeng.framework.context.factory.config.InstantiationAwareBeanPostProcessor;
 import org.hupeng.framework.context.support.Aware;
 import org.hupeng.framework.context.bean.*;
 import org.hupeng.framework.context.factory.config.BeanPostProcessor;
@@ -21,15 +22,27 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 
     @Override
     protected Object createBean(String beanName, BeanDefinition bd, @Nullable Object[] args){
+        //特殊BeanDefinition（如aop场景）实例化方式
+        Object bean = resolveBeforeInstantiation(beanName, bd);
+        if (bean != null) {
+            return bean;
+        }
         return doCreateBean(beanName, bd, args);
     }
 
     protected Object doCreateBean(String beanName, BeanDefinition bd, @Nullable Object[] args){
         //实例化
         BeanWrapper beanWrapper = createBeanInstance(beanName, bd, args);
-        Object exposedObject = null;
+        Object bean = beanWrapper.getWrappedInstance();
+
+        //循环依赖处理，将当前bean添加singletonFactory
+        if (isSingletonCurrentlyInCreation(beanName)) {
+            // 最终将调用getEarlyBeanReference，交由对应后置处理器返回
+            addSingletonFactory(beanName, () -> getEarlyBeanReference(beanName, bd, bean));
+        }
+
+        Object exposedObject = bean;
         if(beanWrapper != null){
-            exposedObject = beanWrapper.getWrappedInstance();
             //属性填充
             populateBean(beanName, bd, beanWrapper);
             //初始化
@@ -43,6 +56,23 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 
          Object instance = instantiationStrategy.instantiate(mbd,beanName,this);
          return new BeanWrapperImpl().setWrappedInstance(instance);
+    }
+
+    /**
+     * 循环依赖（aop）
+     * @param beanName
+     * @param mbd
+     * @param exposedObject
+     * @return
+     */
+    protected Object getEarlyBeanReference(String beanName, BeanDefinition mbd, Object exposedObject) {
+        Object finalExposedObject = exposedObject;
+        if (!mbd.isSynthetic() && hasInstantiationAwareBeanPostProcessors()) {
+            for (BeanPostProcessor bp : getBeanPostProcessors()) {
+
+            }
+        }
+        return finalExposedObject;
     }
 
     /**
@@ -103,6 +133,9 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
      */
     private void invokeAwareMethods(String beanName, Object bean) {
         if (bean instanceof Aware) {
+            if (bean instanceof BeanFactoryAware) {
+                ((BeanFactoryAware) bean).setBeanFactory(AbstractAutowireCapableBeanFactory.this);
+            }
             //todo
         }
     }
@@ -132,6 +165,58 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
     }
 
 
+    /**
+     * BeanDefinition如果标记实例化前解析，直接交给对应的后置处理器返回实例
+     * @param beanName
+     * @param mbd
+     * @return
+     */
+    @Nullable
+    protected Object resolveBeforeInstantiation(String beanName, BeanDefinition mbd) {
+        Object bean = null;
+        if (Boolean.TRUE.equals(mbd.getBeforeInstantiationResolved())) {
+            if (!mbd.isSynthetic() && hasInstantiationAwareBeanPostProcessors()) {
+                Class<?> targetType = mbd.getBeanClass();
+                if (targetType != null) {
+                    bean = applyBeanPostProcessorsBeforeInstantiation(targetType, beanName);
+                    if (bean != null) {
+                        bean = applyBeanPostProcessorsAfterInitialization(bean, beanName);
+                    }
+                }
+            }
+            mbd.setBeforeInstantiationResolved(bean != null);
+        }
+        return bean;
+    }
+
+    /**
+     *
+     * 应用【实例化之前】后置处理器
+     * @param beanClass
+     * @param beanName
+     * @return
+     */
+    @Nullable
+    protected Object applyBeanPostProcessorsBeforeInstantiation(Class<?> beanClass, String beanName) {
+        for (BeanPostProcessor bp : getBeanPostProcessors()) {
+            if (bp instanceof InstantiationAwareBeanPostProcessor) {
+                InstantiationAwareBeanPostProcessor ibp = (InstantiationAwareBeanPostProcessor) bp;
+                Object result = ibp.postProcessBeforeInstantiation(beanClass, beanName);
+                if (result != null) {
+                    return result;
+                }
+            }
+        }
+        return null;
+    }
+
+
+    /**
+     * 应用【初始化之前】后置处理器
+     * @param existingBean
+     * @param beanName
+     * @return
+     */
     @Override
     public Object applyBeanPostProcessorsBeforeInitialization(Object existingBean, String beanName) {
         Object result = existingBean;
@@ -145,6 +230,12 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
         return result;
     }
 
+    /**
+     * 应用【初始化之后】后置处理器
+     * @param existingBean
+     * @param beanName
+     * @return
+     */
     @Override
     public Object applyBeanPostProcessorsAfterInitialization(Object existingBean, String beanName) {
         Object result = existingBean;
