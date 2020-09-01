@@ -3,6 +3,7 @@ package org.hupeng.framework.context.factory;
 import com.sun.istack.internal.Nullable;
 import org.hupeng.framework.context.annotation.Autowired;
 import org.hupeng.framework.context.factory.config.InstantiationAwareBeanPostProcessor;
+import org.hupeng.framework.context.factory.config.AutoProxyInstantiationAwareBeanPostProcessor;
 import org.hupeng.framework.context.support.Aware;
 import org.hupeng.framework.context.bean.*;
 import org.hupeng.framework.context.factory.config.BeanPostProcessor;
@@ -48,6 +49,8 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
             //初始化
             exposedObject = initializeBean(beanName, exposedObject, bd);
         }
+
+
         return exposedObject;
     }
 
@@ -62,17 +65,21 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
      * 循环依赖（aop）
      * @param beanName
      * @param mbd
-     * @param exposedObject
+     * @param bean
      * @return
      */
-    protected Object getEarlyBeanReference(String beanName, BeanDefinition mbd, Object exposedObject) {
-        Object finalExposedObject = exposedObject;
+    protected Object getEarlyBeanReference(String beanName, BeanDefinition mbd, Object bean) {
+        Object exposedObject = bean;
         if (!mbd.isSynthetic() && hasInstantiationAwareBeanPostProcessors()) {
             for (BeanPostProcessor bp : getBeanPostProcessors()) {
-
+                if (bp instanceof AutoProxyInstantiationAwareBeanPostProcessor) {
+                    //返回代理对象
+                    AutoProxyInstantiationAwareBeanPostProcessor ibp = (AutoProxyInstantiationAwareBeanPostProcessor) bp;
+                    exposedObject = ibp.getEarlyBeanReference(exposedObject, beanName);
+                }
             }
         }
-        return finalExposedObject;
+        return exposedObject;
     }
 
     /**
