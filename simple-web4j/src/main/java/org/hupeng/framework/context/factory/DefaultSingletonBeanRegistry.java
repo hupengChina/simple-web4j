@@ -39,12 +39,17 @@ public class DefaultSingletonBeanRegistry implements SingletonBeanRegistry {
     @Override
     @Nullable
     public Object getSingleton(String beanName) {
+        return getSingleton(beanName,true);
+    }
+
+    public Object getSingleton(String beanName, boolean allowEarlyReference) {
         Object singletonObject = this.singletonObjects.get(beanName);
         if (singletonObject == null && isSingletonCurrentlyInCreation(beanName)) {
             synchronized (this.singletonObjects) {
                 singletonObject = this.earlySingletonObjects.get(beanName);
-                if (singletonObject == null) {
+                if (singletonObject == null && allowEarlyReference) {
                     ObjectFactory<?> singletonFactory = this.singletonFactories.get(beanName);
+                    //从三级缓存工厂获取结果（调用AbstractAutowireCapableBeanFactory.getEarlyBeanReference）移入二级缓存
                     if (singletonFactory != null) {
                         singletonObject = singletonFactory.getObject();
                         this.earlySingletonObjects.put(beanName, singletonObject);

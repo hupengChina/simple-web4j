@@ -3,7 +3,7 @@ package org.hupeng.framework.context.factory;
 import com.sun.istack.internal.Nullable;
 import org.hupeng.framework.context.annotation.Autowired;
 import org.hupeng.framework.context.factory.config.InstantiationAwareBeanPostProcessor;
-import org.hupeng.framework.context.factory.config.AutoProxyInstantiationAwareBeanPostProcessor;
+import org.hupeng.framework.context.factory.config.EarlyReferenceInstantiationAwareBeanPostProcessor;
 import org.hupeng.framework.context.support.Aware;
 import org.hupeng.framework.context.bean.*;
 import org.hupeng.framework.context.factory.config.BeanPostProcessor;
@@ -21,6 +21,8 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 
     private InstantiationStrategy instantiationStrategy = new DefaultInstantiationStrategy();
 
+    private boolean allowRawInjectionDespiteWrapping = false;
+
     @Override
     protected Object createBean(String beanName, BeanDefinition bd, @Nullable Object[] args){
         //特殊BeanDefinition（如aop场景）实例化方式
@@ -32,24 +34,36 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
     }
 
     protected Object doCreateBean(String beanName, BeanDefinition bd, @Nullable Object[] args){
-        //实例化
+        //1.实例化
         BeanWrapper beanWrapper = createBeanInstance(beanName, bd, args);
         Object bean = beanWrapper.getWrappedInstance();
 
-        //循环依赖处理，将当前bean添加singletonFactory
-        if (isSingletonCurrentlyInCreation(beanName)) {
+        //循环依赖处理
+        boolean earlyExposure = isSingletonCurrentlyInCreation(beanName);
+        if (earlyExposure) {
             // 最终将调用getEarlyBeanReference，交由对应后置处理器返回
             addSingletonFactory(beanName, () -> getEarlyBeanReference(beanName, bd, bean));
         }
 
         Object exposedObject = bean;
         if(beanWrapper != null){
-            //属性填充
+            //2.填充属性
             populateBean(beanName, bd, beanWrapper);
-            //初始化
+            //3.初始化逻辑（Aware注入对象 -> 初始化前BeanPostProcessors -> 初始化方法 -> 初始化后BeanPostProcessors ）
             exposedObject = initializeBean(beanName, exposedObject, bd);
         }
 
+        if (earlyExposure) {//提前引用的情况下
+            //判断存在代理对象
+            Object earlySingletonReference = getSingleton(beanName,false);
+            if (earlySingletonReference != null) {
+                if (exposedObject == bean) {//exposedObject未改变
+                    exposedObject = earlySingletonReference;
+                } else if (!this.allowRawInjectionDespiteWrapping && hasDependentBean(beanName)){
+
+                }
+            }
+        }
 
         return exposedObject;
     }
@@ -62,7 +76,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
     }
 
     /**
-     * 循环依赖（aop）
+     * 返回提前暴露的对象，存在后置处理器（如aop代理）交由处理器返回
      * @param beanName
      * @param mbd
      * @param bean
@@ -72,9 +86,9 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
         Object exposedObject = bean;
         if (!mbd.isSynthetic() && hasInstantiationAwareBeanPostProcessors()) {
             for (BeanPostProcessor bp : getBeanPostProcessors()) {
-                if (bp instanceof AutoProxyInstantiationAwareBeanPostProcessor) {
+                if (bp instanceof EarlyReferenceInstantiationAwareBeanPostProcessor) {
                     //返回代理对象
-                    AutoProxyInstantiationAwareBeanPostProcessor ibp = (AutoProxyInstantiationAwareBeanPostProcessor) bp;
+                    EarlyReferenceInstantiationAwareBeanPostProcessor ibp = (EarlyReferenceInstantiationAwareBeanPostProcessor) bp;
                     exposedObject = ibp.getEarlyBeanReference(exposedObject, beanName);
                 }
             }
@@ -121,12 +135,12 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
     protected Object initializeBean(String beanName, Object bean, @Nullable BeanDefinition bd) {
         invokeAwareMethods(beanName, bean);
         Object wrappedBean = bean;
-        if (bd == null || !bd.isSynthetic()) {//BeanPostProcessors前置处理
+        if (bd == null || !bd.isSynthetic()) {//初始化之前的后置处理器
             wrappedBean = applyBeanPostProcessorsBeforeInitialization(wrappedBean, beanName);
         }
         //调用初始化方法
         invokeInitMethods(beanName, wrappedBean, bd);
-        if (bd == null || !bd.isSynthetic()) {//BeanPostProcessors后置处理
+        if (bd == null || !bd.isSynthetic()) {//初始化之后的后置处理器
             wrappedBean = applyBeanPostProcessorsAfterInitialization(wrappedBean, beanName);
         }
 
@@ -134,7 +148,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
     }
 
     /**
-     * 调用aware
+     * 继承了Aware的bean注入对应的对象
      * @param beanName
      * @param bean
      */
@@ -148,7 +162,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
     }
 
     /**
-     * 调用初始化方法
+     * 初始化方法
      * @param beanName
      * @param bean
      * @param bd
@@ -198,7 +212,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 
     /**
      *
-     * 应用【实例化之前】后置处理器
+     * 应用【实例化前】后置处理器
      * @param beanClass
      * @param beanName
      * @return
@@ -219,7 +233,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 
 
     /**
-     * 应用【初始化之前】后置处理器
+     * 应用【初始化前】后置处理器
      * @param existingBean
      * @param beanName
      * @return
@@ -238,7 +252,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
     }
 
     /**
-     * 应用【初始化之后】后置处理器
+     * 应用【初始化后】后置处理器
      * @param existingBean
      * @param beanName
      * @return
