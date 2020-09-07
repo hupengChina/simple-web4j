@@ -25,6 +25,9 @@
         <logback-core.version>1.1.7</logback-core.version>
         <javassist.version>3.23.1-GA</javassist.version>
         <tika.version>1.22</tika.version>
+        <aopalliance.version>1.0</aopalliance.version>
+        <aspectjweaver.version>1.9.5</aspectjweaver.version>
+        <cglib-nodep.version>3.2.12</cglib-nodep.version>
     </properties>
 
     <dependencies>
@@ -87,6 +90,22 @@
             <groupId>org.javassist</groupId>
             <artifactId>javassist</artifactId>
             <version>${javassist.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>aopalliance</groupId>
+            <artifactId>aopalliance</artifactId>
+            <version>${aopalliance.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjweaver</artifactId>
+            <version>${aspectjweaver.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>cglib</groupId>
+            <artifactId>cglib-nodep</artifactId>
+            <version>${cglib-nodep.version}</version>
         </dependency>
 
     </dependencies>
