@@ -1,4 +1,7 @@
-package org.hupeng.framework.aop;
+package org.hupeng.framework.aop.support;
+
+import org.hupeng.framework.aop.core.AopProxy;
+import org.hupeng.framework.aop.core.AopProxyFactory;
 
 /**
  * @author : hupeng

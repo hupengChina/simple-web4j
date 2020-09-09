@@ -1,4 +1,6 @@
-package org.hupeng.framework.aop.aspectj.support;
+package org.hupeng.framework.aop.core;
+
+import org.aopalliance.aop.Advice;
 
 public interface Advisor {
 

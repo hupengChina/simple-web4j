@@ -1,4 +1,4 @@
-package org.hupeng.framework.aop.aspectj.support;
+package org.hupeng.framework.aop.core;
 
 @FunctionalInterface
 public interface ClassFilter {
