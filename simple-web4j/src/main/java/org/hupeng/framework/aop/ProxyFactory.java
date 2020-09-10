@@ -8,6 +8,8 @@ import org.hupeng.framework.aop.support.ProxyCreatorSupport;
  */
 public class ProxyFactory extends ProxyCreatorSupport {
 
-
+    public Object getProxy() {
+        return createAopProxy().getProxy();
+    }
 
 }
