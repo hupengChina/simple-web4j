@@ -1,6 +1,5 @@
-package org.hupeng.framework.aop;
+package org.hupeng.framework.aop.proxy;
 
-import org.hupeng.framework.aop.core.AopProxy;
 import org.hupeng.framework.aop.support.AdvisedSupport;
 import org.hupeng.framework.commons.util.ClassUtil;
 

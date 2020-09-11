@@ -1,4 +1,4 @@
-package org.hupeng.framework.aop.core;
+package org.hupeng.framework.aop.proxy;
 
 import com.sun.istack.internal.Nullable;
 

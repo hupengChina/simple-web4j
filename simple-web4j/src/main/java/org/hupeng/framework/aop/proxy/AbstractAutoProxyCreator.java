@@ -1,8 +1,9 @@
-package org.hupeng.framework.aop;
+package org.hupeng.framework.aop.proxy;
 
 import com.sun.istack.internal.Nullable;
-import org.hupeng.framework.aop.core.Advisor;
-import org.hupeng.framework.aop.core.TargetSource;
+import org.hupeng.framework.aop.Advisor;
+import org.hupeng.framework.aop.SingletonTargetSource;
+import org.hupeng.framework.aop.TargetSource;
 import org.hupeng.framework.context.factory.BeanFactory;
 import org.hupeng.framework.context.factory.BeanFactoryAware;
 import org.hupeng.framework.context.factory.config.EarlyReferenceInstantiationAwareBeanPostProcessor;

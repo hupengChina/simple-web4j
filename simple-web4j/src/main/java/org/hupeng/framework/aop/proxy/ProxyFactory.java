@@ -1,4 +1,4 @@
-package org.hupeng.framework.aop;
+package org.hupeng.framework.aop.proxy;
 
 import org.hupeng.framework.aop.support.ProxyCreatorSupport;
 

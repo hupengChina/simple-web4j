@@ -1,12 +1,13 @@
-package org.hupeng.framework.aop;
+package org.hupeng.framework.aop.proxy;
 
-import org.hupeng.framework.aop.core.Advisor;
-import org.hupeng.framework.aop.core.TargetSource;
+import org.hupeng.framework.aop.Advisor;
+import org.hupeng.framework.aop.TargetSource;
 import org.hupeng.framework.context.factory.BeanFactory;
 
 import java.util.Collection;
+import java.util.List;
 
-public class AbstractAdvisorAutoProxyCreator extends AbstractAutoProxyCreator  {
+public abstract class AbstractAdvisorAutoProxyCreator extends AbstractAutoProxyCreator  {
 
     @Override
     public void setBeanFactory(BeanFactory beanFactory) {
@@ -15,7 +16,12 @@ public class AbstractAdvisorAutoProxyCreator extends AbstractAutoProxyCreator  {
 
     @Override
     protected Collection<Advisor> getAdvisorsForBean(Class<?> beanClass, String beanName, TargetSource customTargetSource) {
+
+        List<Advisor> advisors = findAdvisorBeans();
+
         return null;
     }
+
+    protected abstract List<Advisor> findAdvisorBeans();
 
 }

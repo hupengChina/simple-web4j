@@ -1,4 +1,4 @@
-package org.hupeng.framework.aop.core;
+package org.hupeng.framework.aop;
 
 import org.aopalliance.aop.Advice;
 

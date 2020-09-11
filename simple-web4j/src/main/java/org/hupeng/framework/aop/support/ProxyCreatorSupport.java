@@ -1,7 +1,7 @@
 package org.hupeng.framework.aop.support;
 
-import org.hupeng.framework.aop.core.AopProxy;
-import org.hupeng.framework.aop.core.AopProxyFactory;
+import org.hupeng.framework.aop.proxy.AopProxy;
+import org.hupeng.framework.aop.proxy.AopProxyFactory;
 
 /**
  * @author : hupeng
@@ -11,8 +11,7 @@ public class ProxyCreatorSupport extends AdvisedSupport {
 
     private AopProxyFactory aopProxyFactory;
 
-    public ProxyCreatorSupport() {
-    }
+    public ProxyCreatorSupport() {}
 
     public void setAopProxyFactory(AopProxyFactory aopProxyFactory) {
         this.aopProxyFactory = aopProxyFactory;
