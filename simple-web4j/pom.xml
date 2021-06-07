@@ -21,7 +21,7 @@
         <commons-io.version>2.6</commons-io.version>
         <jackson-databind.version>2.9.10.5</jackson-databind.version>
         <slf4j-api.version>1.7.21</slf4j-api.version>
-        <logback-classic.version>1.1.7</logback-classic.version>
+        <logback-classic.version>1.2.0</logback-classic.version>
         <logback-core.version>1.1.7</logback-core.version>
         <javassist.version>3.23.1-GA</javassist.version>
         <tika.version>1.22</tika.version>
